@@ -6733,6 +6733,7 @@ function mqRenderQ(){
   const inp=document.getElementById('mq-input');
   inp.className='mq-input';
   inp.disabled=false;
+  inp.placeholder='Ketik hiragana di sini...';
   inp.value=hist?hist.typed:'';
   if(hist){inp.className='mq-input '+(hist.ok?'correct':'wrong');inp.disabled=true;}
 
@@ -6794,7 +6795,6 @@ function mqSurrender(){
   inp.value = '';
   inp.className = 'mq-input wrong';
   inp.disabled = true;
-  inp.placeholder = q.r;  // show answer as placeholder
 
   // Reveal
   const rev = document.getElementById('mq-reveal');
