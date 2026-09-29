@@ -1,10 +1,11 @@
 
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz Kosakata JLPT N4・N3</title>
+<title>Raisha Japanese Learning Quiz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -540,6 +541,62 @@ header{background:var(--text);color:var(--bg);padding:0 20px;height:60px;display
 .mq-stat-num.ok{color:var(--green)}
 .mq-stat-num.ng{color:var(--red)}
 .mq-stat-lbl{font-size:10px;color:var(--muted);margin-top:3px}
+
+/* ═══════ AI FEATURES CSS ═══════ */
+.ai-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;align-items:center;justify-content:center}
+.ai-modal-overlay.show{display:flex}
+.ai-modal{background:var(--c-surface,#fff);border-radius:20px;padding:28px;max-width:400px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:aiIn .25s ease}
+@keyframes aiIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+.ai-modal h2{font-size:18px;font-weight:800;margin-bottom:6px;color:var(--c-text,#1c160e)}
+.ai-modal p{font-size:13px;color:#666;margin-bottom:14px;line-height:1.5}
+.ai-modal input{width:100%;padding:11px 14px;border:1.5px solid #e0d8d0;border-radius:10px;font-size:14px;font-family:inherit;outline:none;margin-bottom:10px;background:var(--c-bg2,#f5f3ef);color:var(--c-text,#1c160e)}
+.ai-modal input:focus{border-color:#d4600a}
+.ai-modal-save{width:100%;padding:12px;border:none;border-radius:10px;background:#1c160e;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:6px}
+.ai-modal-skip{width:100%;padding:10px;border:1.5px solid #e0d8d0;border-radius:10px;background:transparent;color:#888;font-size:13px;cursor:pointer}
+.ai-modal-note{font-size:11px;color:#aaa;margin-top:10px;text-align:center;line-height:1.6}
+.ai-eg-btn{width:100%;margin-top:10px;padding:10px;border:1.5px solid #7c3aed;border-radius:10px;background:transparent;color:#7c3aed;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
+.ai-eg-btn:hover{background:#ede9fe}
+.ai-eg-panel{display:none;margin-top:8px;background:#faf8ff;border:1.5px solid #c4b5fd;border-radius:14px;overflow:hidden}
+.ai-eg-head{background:#ede9fe;padding:10px 14px;font-size:11px;font-weight:700;color:#5b21b6;letter-spacing:.06em;text-transform:uppercase}
+.ai-eg-body{padding:14px}
+.ai-eg-item{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #e8e0ff}
+.ai-eg-item:last-child{margin:0;padding:0;border:none}
+.ai-eg-jp{font-family:'Noto Sans JP',sans-serif;font-size:16px;font-weight:700;color:#1c160e;line-height:1.5;margin-bottom:4px}
+.ai-eg-vocab{background:#fbbf24;color:#000;border-radius:4px;padding:0 3px}
+.ai-eg-id{font-size:13px;color:#6b5e4e;line-height:1.5;margin-bottom:3px}
+.ai-eg-ctx{font-size:11px;color:#9a8e7e;font-style:italic}
+.ai-eg-error{padding:14px;font-size:13px;color:#dc2626;text-align:center}
+/* Chat screen */
+#screen-ai-chat{display:none}
+.chat-container{display:flex;flex-direction:column;height:calc(100vh - 100px);background:var(--c-surface,#fff);border-radius:20px;overflow:hidden;border:1px solid #e2ddd6;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.chat-header{padding:14px 16px;background:#1c160e;display:flex;align-items:center;gap:10px}
+.chat-header-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.chat-header-name{font-size:14px;font-weight:700;color:#fff}
+.chat-header-status{font-size:11px;color:rgba(255,255,255,.5)}
+.chat-header-info{flex:1}
+.chat-topic-bar{padding:8px 14px;background:var(--c-bg2,#f5f3ef);border-bottom:1px solid #e2ddd6;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.chat-topic-label{font-size:11px;color:#888;font-weight:600;white-space:nowrap}
+.chat-topic-btn{padding:5px 10px;border-radius:20px;border:1.5px solid #e2ddd6;background:var(--c-surface,#fff);font-size:11px;font-weight:600;cursor:pointer;color:#555;transition:all .15s;white-space:nowrap}
+.chat-topic-btn:hover,.chat-topic-btn.active{background:#1c160e;border-color:#1c160e;color:#fff}
+.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--c-bg,#f8f6f1)}
+.chat-msg{display:flex;gap:8px;max-width:88%}
+.chat-msg.user{align-self:flex-end;flex-direction:row-reverse}
+.chat-msg-avatar{width:28px;height:28px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;align-self:flex-end}
+.chat-msg.user .chat-msg-avatar{background:#d4600a}
+.chat-bubble{padding:10px 13px;border-radius:16px;font-size:13px;line-height:1.6;background:var(--c-surface,#fff);border:1px solid #e2ddd6;color:#1c160e;white-space:pre-wrap;word-break:break-word}
+.chat-msg.user .chat-bubble{background:#1c160e;color:#fff;border:none;border-radius:16px 16px 4px 16px}
+.chat-msg.ai .chat-bubble{border-radius:16px 16px 16px 4px}
+.chat-msg.typing .chat-bubble{color:#aaa;font-style:italic;font-size:12px}
+.chat-input-area{padding:10px 12px;background:var(--c-surface,#fff);border-top:1px solid #e2ddd6}
+.chat-quick{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+.chat-quick-btn{padding:5px 10px;border-radius:20px;border:1.5px solid #e2ddd6;background:var(--c-surface,#fff);font-size:11px;font-weight:600;cursor:pointer;color:#555;transition:all .15s}
+.chat-quick-btn:hover{border-color:#7c3aed;color:#7c3aed}
+.chat-input-row{display:flex;gap:8px;align-items:flex-end}
+.chat-input{flex:1;padding:10px 13px;border:1.5px solid #e2ddd6;border-radius:20px;font-size:14px;font-family:inherit;resize:none;height:44px;max-height:120px;outline:none;background:var(--c-bg,#f8f6f1);color:#1c160e;transition:border-color .15s;overflow-y:auto}
+.chat-input:focus{border-color:#7c3aed}
+.chat-send{width:44px;height:44px;border-radius:50%;border:none;background:#7c3aed;color:#fff;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.chat-send:hover{background:#6d28d9}
+.chat-send:disabled{background:#ccc;box-shadow:none;cursor:default}
 </style>
 </head>
 <body>
@@ -664,6 +721,7 @@ header{background:var(--text);color:var(--bg);padding:0 20px;height:60px;display
   <button class="land-btn outline" onclick="showList()">📋 Lihat Daftar Kosakata</button>
   <button class="land-btn outline" onclick="showFlashcard()" style="border-color:#7c3aad;color:#7c3aad">🃏 Mode Flashcard</button>
   <button class="land-btn outline" onclick="showManualSetup()" style="border-color:#c05c00;color:#c05c00">⌨️ Quiz Tulis Manual</button>
+  <button class="land-btn outline" onclick="showAIChat()" style="border-color:#7c3aed;color:#7c3aed">🤖 Latihan Percakapan AI</button>
 </div>
 
 <!-- ════ LIST ════ -->
@@ -2473,7 +2531,6 @@ const VOCAB = [
 {v:"今度",r:"こんど",a:"kali ini; lain kali; berikutnya",lv:"N4"},
 {v:"この間",r:"このあいだ",a:"beberapa waktu lalu; baru-baru ini",lv:"N4"},
 {v:"今夜",r:"こんや",a:"malam ini",lv:"N4"},
-{v:"これから",r:"これから",a:"mulai sekarang; dari sekarang; ke depan",lv:"N4"},
 {v:"故障",r:"こしょう",a:"kerusakan; gangguan; mogok",lv:"N4"},
 {v:"答え",r:"こたえ",a:"jawaban; penyelesaian",lv:"N4"},
 {v:"小鳥",r:"ことり",a:"burung kecil",lv:"N4"},
@@ -2526,7 +2583,6 @@ const VOCAB = [
 {v:"森",r:"もり",a:"hutan",lv:"N4"},
 {v:"申し上げる",r:"もうしあげる",a:"mengatakan (sangat rendah hati)",lv:"N4"},
 {v:"申す",r:"もうす",a:"mengatakan; berbicara (rendah hati)",lv:"N4"},
-{v:"もうすぐ",r:"もうすぐ",a:"sebentar lagi; tidak lama lagi",lv:"N4"},
 {v:"迎える",r:"むかえる",a:"menjemput; menyambut",lv:"N4"},
 {v:"昔",r:"むかし",a:"dahulu kala; zaman dulu; masa lalu",lv:"N4"},
 {v:"向かう",r:"むかう",a:"menghadap; menuju; berhadapan",lv:"N4"},
@@ -2582,7 +2638,6 @@ const VOCAB = [
 {v:"お祭り",r:"おまつり",a:"festival; perayaan; pesta rakyat",lv:"N4"},
 {v:"お見舞い",r:"おみまい",a:"menjenguk orang sakit; kiriman untuk orang sakit",lv:"N4"},
 {v:"お土産",r:"おみやげ",a:"oleh-oleh; souvenir; buah tangan",lv:"N4"},
-{v:"おもちゃ",r:"おもちゃ",a:"mainan; permainan",lv:"N4"},
 {v:"思い出す",r:"おもいだす",a:"mengingat; teringat; mengenang kembali",lv:"N4"},
 {v:"表",r:"おもて",a:"depan; permukaan; muka; luar",lv:"N4"},
 {v:"お礼",r:"おれい",a:"ucapan terima kasih; tanda terima kasih",lv:"N4"},
@@ -2617,7 +2672,6 @@ const VOCAB = [
 {v:"坂",r:"さか",a:"tanjakan; lereng; bukit kecil",lv:"N4"},
 {v:"盛ん",r:"さかん",a:"aktif; semarak; ramai; berkembang",lv:"N4"},
 {v:"昨夜",r:"さくや",a:"tadi malam; semalam",lv:"N4"},
-{v:"サンダル",r:"サンダル",a:"sandal",lv:"N4"},
 {v:"産業",r:"さんぎょう",a:"industri; sektor industri",lv:"N4"},
 {v:"再来月",r:"さらいげつ",a:"dua bulan lagi; bulan depannya",lv:"N4"},
 {v:"再来週",r:"さらいしゅう",a:"dua minggu lagi; minggu depannya",lv:"N4"},
@@ -2752,7 +2806,6 @@ const VOCAB = [
 {v:"役に立つ",r:"やくにたつ",a:"berguna; bermanfaat; membantu",lv:"N4"},
 {v:"約束",r:"やくそく",a:"janji; perjanjian; kesepakatan",lv:"N4"},
 {v:"止む",r:"やむ",a:"berhenti; reda (hujan/angin)",lv:"N4"},
-{v:"やっぱり",r:"やっぱり",a:"tetap saja; seperti yang diduga; ternyata",lv:"N4"},
 {v:"優しい",r:"やさしい",a:"baik hati; lembut; mudah; ramah",lv:"N4"},
 {v:"痩せる",r:"やせる",a:"kurus; bertambah kurus; menurunkan berat",lv:"N4"},
 {v:"柔らかい",r:"やわらかい",a:"lembut; empuk; lentur; tidak keras",lv:"N4"},
@@ -2772,9 +2825,7 @@ const VOCAB = [
 {v:"揺れる",r:"ゆれる",a:"berguncang; bergoyang; berdenyut",lv:"N4"},
 {v:"残念",r:"ざんねん",a:"sayang sekali; menyesal; kecewa",lv:"N4"},
 {v:"全然",r:"ぜんぜん",a:"sama sekali (tidak); tidak sama sekali",lv:"N4"},
-{v:"まず",r:"まず",a:"pertama-tama; pertama sekali; sebelum itu",lv:"N4"},
 {v:"君",r:"きみ",a:"kamu; Anda (informal/ke bawahan)",lv:"N4"},
-{v:"こう",r:"こう",a:"begini; seperti ini; demikian",lv:"N4"},
 {v:"油",r:"あぶら",a:"minyak; lemak",lv:"N3"},
 {v:"愛",r:"あい",a:"cinta; kasih",lv:"N3"},
 {v:"愛情",r:"あいじょう",a:"kasih sayang; cinta",lv:"N3"},
@@ -2816,16 +2867,13 @@ const VOCAB = [
 {v:"莫大",r:"ばくだい",a:"sangat besar; amat banyak; luar biasa besar",lv:"N3"},
 {v:"爆発",r:"ばくはつ",a:"ledakan; meledak; pecah",lv:"N3"},
 {v:"場面",r:"ばめん",a:"adegan; situasi; momen",lv:"N3"},
-{v:"ばらばら",r:"ばらばら",a:"bercerai-berai; terpisah-pisah; berantakan",lv:"N3"},
 {v:"罰する",r:"ばっする",a:"menghukum; memberi hukuman",lv:"N3"},
 {v:"弁護士",r:"べんごし",a:"pengacara; advokat",lv:"N3"},
 {v:"別々",r:"べつべつ",a:"masing-masing; terpisah; sendiri-sendiri",lv:"N3"},
 {v:"美人",r:"びじん",a:"wanita cantik; orang tampan/cantik",lv:"N3"},
-{v:"びっくり",r:"びっくり",a:"terkejut; kaget; terperanjat",lv:"N3"},
 {v:"微妙",r:"びみょう",a:"halus; samar; delikan; rumit",lv:"N3"},
 {v:"瓶",r:"びん",a:"botol; kendi; guci",lv:"N3"},
 {v:"便",r:"びん・べん",a:"kiriman; penerbangan; kemudahan",lv:"N3"},
-{v:"ぼんやり",r:"ぼんやり",a:"samar; tidak jelas; melamun; tidak fokus",lv:"N3"},
 {v:"募集",r:"ぼしゅう",a:"perekrutan; pendaftaran; pengumuman lowongan",lv:"N3"},
 {v:"棒",r:"ぼう",a:"tongkat; batang; batang lurus",lv:"N3"},
 {v:"冒険",r:"ぼうけん",a:"petualangan; berani mengambil risiko",lv:"N3"},
@@ -2836,7 +2884,6 @@ const VOCAB = [
 {v:"文",r:"ぶん・もん",a:"kalimat; tulisan; huruf",lv:"N3"},
 {v:"分類",r:"ぶんるい",a:"klasifikasi; pengelompokan; kategorisasi",lv:"N3"},
 {v:"文章",r:"ぶんしょう",a:"paragraf; tulisan; kalimat",lv:"N3"},
-{v:"ぶらぶら",r:"ぶらぶら",a:"santai-santai; jalan-jalan; bergoyang",lv:"N3"},
 {v:"無沙汰",r:"ぶさた",a:"lama tidak berhubungan; absen lama",lv:"N3"},
 {v:"物質",r:"ぶっしつ",a:"materi; zat; benda fisik",lv:"N3"},
 {v:"舞台",r:"ぶたい",a:"panggung; medan; latar belakang",lv:"N3"},
@@ -2887,10 +2934,8 @@ const VOCAB = [
 {v:"大統領",r:"だいとうりょう",a:"presiden negara",lv:"N3"},
 {v:"黙る",r:"だまる",a:"diam; membisu; tidak berkata-kata",lv:"N3"},
 {v:"段",r:"だん",a:"tingkat; anak tangga; tahap",lv:"N3"},
-{v:"だんだん",r:"だんだん",a:"semakin; bertahap; makin lama makin",lv:"N3"},
 {v:"男女",r:"だんじょ",a:"pria dan wanita; laki-laki perempuan",lv:"N3"},
 {v:"団体",r:"だんたい",a:"kelompok; organisasi; rombongan",lv:"N3"},
-{v:"だるい",r:"だるい",a:"lemas; lesu; tidak bertenaga",lv:"N3"},
 {v:"出来事",r:"できごと",a:"kejadian; peristiwa; insiden",lv:"N3"},
 {v:"電池",r:"でんち",a:"baterai; sel listrik",lv:"N3"},
 {v:"伝言",r:"でんごん",a:"pesan; titipan pesan",lv:"N3"},
@@ -2899,7 +2944,6 @@ const VOCAB = [
 {v:"電子レンジ",r:"でんしレンジ",a:"microwave; oven microwave",lv:"N3"},
 {v:"伝統",r:"でんとう",a:"tradisi; warisan budaya",lv:"N3"},
 {v:"度",r:"ど",a:"derajat; kali; tingkat",lv:"N3"},
-{v:"どきどき",r:"どきどき",a:"deg-degan; berdebar-debar",lv:"N3"},
 {v:"毒",r:"どく",a:"racun; bisa; toksin",lv:"N3"},
 {v:"独立",r:"どくりつ",a:"kemerdekaan; kemandirian; berdiri sendiri",lv:"N3"},
 {v:"独身",r:"どくしん",a:"lajang; belum menikah; bujangan",lv:"N3"},
@@ -2908,12 +2952,10 @@ const VOCAB = [
 {v:"当時",r:"とうじ",a:"waktu itu; saat itu; kala itu",lv:"N3"},
 {v:"同時",r:"どうじ",a:"bersamaan; serentak; simultan",lv:"N3"},
 {v:"銅貨",r:"どうか",a:"uang koin tembaga",lv:"N3"},
-{v:"どうか",r:"どうか",a:"mohon; tolong; apakah mungkin",lv:"N3"},
 {v:"同級生",r:"どうきゅうせい",a:"teman sekelas; teman seangkatan",lv:"N3"},
 {v:"道路",r:"どうろ",a:"jalan raya; jalan umum",lv:"N3"},
 {v:"同僚",r:"どうりょう",a:"rekan kerja; kolega",lv:"N3"},
 {v:"動詞",r:"どうし",a:"kata kerja; verba",lv:"N3"},
-{v:"どうしても",r:"どうしても",a:"bagaimanapun juga; tidak bisa tidak; mau tidak mau",lv:"N3"},
 {v:"道徳",r:"どうとく",a:"moral; etika; budi pekerti",lv:"N3"},
 {v:"同様",r:"どうよう",a:"sama; serupa; demikian juga",lv:"N3"},
 {v:"柄",r:"がら・え",a:"corak; motif; gagang; karakter",lv:"N3"},
@@ -2947,7 +2989,6 @@ const VOCAB = [
 {v:"服装",r:"ふくそう",a:"pakaian; busana; penampilan",lv:"N3"},
 {v:"不満",r:"ふまん",a:"tidak puas; kekecewaan; keluhan",lv:"N3"},
 {v:"雰囲気",r:"ふんいき",a:"suasana; atmosfer; nuansa",lv:"N3"},
-{v:"ふらふら",r:"ふらふら",a:"sempoyongan; pusing; tidak stabil",lv:"N3"},
 {v:"触れる",r:"ふれる",a:"menyentuh; menyinggung; merasa",lv:"N3"},
 {v:"振る",r:"ふる",a:"mengibaskan; mengayunkan; menolak",lv:"N3"},
 {v:"震える",r:"ふるえる",a:"gemetar; bergetar; menggigil",lv:"N3"},
@@ -2967,7 +3008,6 @@ const VOCAB = [
 {v:"外国産",r:"がいこくさん",a:"produk impor; buatan luar negeri",lv:"N3"},
 {v:"外食",r:"がいしょく",a:"makan di luar; makan di restoran",lv:"N3"},
 {v:"画家",r:"がか",a:"pelukis; seniman lukis",lv:"N3"},
-{v:"がっかり",r:"がっかり",a:"kecewa; patah semangat; tidak puas",lv:"N3"},
 {v:"楽器",r:"がっき",a:"alat musik; instrumen musik",lv:"N3"},
 {v:"学部",r:"がくぶ",a:"fakultas; departemen universitas",lv:"N3"},
 {v:"画面",r:"がめん",a:"layar; tampilan; frame",lv:"N3"},
@@ -3000,7 +3040,6 @@ const VOCAB = [
 {v:"強盗",r:"ごうとう",a:"perampok; perampokan; begal",lv:"N3"},
 {v:"軍",r:"ぐん",a:"militer; tentara; angkatan bersenjata",lv:"N3"},
 {v:"軍隊",r:"ぐんたい",a:"pasukan militer; tentara",lv:"N3"},
-{v:"ぐっすり",r:"ぐっすり",a:"tidur nyenyak; pulas",lv:"N3"},
 {v:"具体",r:"ぐたい",a:"konkret; spesifik; nyata",lv:"N3"},
 {v:"偶然",r:"ぐうぜん",a:"kebetulan; tidak sengaja; secara kebetulan",lv:"N3"},
 {v:"逆",r:"ぎゃく",a:"kebalikan; terbalik; sebaliknya",lv:"N3"},
@@ -3105,7 +3144,6 @@ const VOCAB = [
 {v:"掘る",r:"ほる",a:"menggali; mengebor; memahat",lv:"N3"},
 {v:"保証",r:"ほしょう",a:"jaminan; garansi; kepastian",lv:"N3"},
 {v:"干す",r:"ほす",a:"menjemur; mengeringkan",lv:"N3"},
-{v:"ほっと",r:"ほっと",a:"lega; merasa tenang; napas lega",lv:"N3"},
 {v:"保存",r:"ほぞん",a:"penyimpanan; menyimpan; konservasi",lv:"N3"},
 {v:"法",r:"ほう",a:"hukum; metode; cara; Dharma",lv:"N3"},
 {v:"放題",r:"ほうだい",a:"sepuasnya; bebas; tanpa batas",lv:"N3"},
@@ -3249,7 +3287,6 @@ const VOCAB = [
 {v:"家事",r:"かじ",a:"pekerjaan rumah; urusan rumah tangga",lv:"N3"},
 {v:"抱える",r:"かかえる",a:"menggendong; menanggung; menghadapi",lv:"N3"},
 {v:"価格",r:"かかく",a:"harga; tarif; nilai pasar",lv:"N3"},
-{v:"かかる",r:"かかる",a:"memerlukan; terkena; bergantung",lv:"N3"},
 {v:"関わる",r:"かかわる",a:"berhubungan; terkait; terlibat",lv:"N3"},
 {v:"欠ける",r:"かける",a:"kekurangan; retak; hilang bagian",lv:"N3"},
 {v:"書き直す",r:"かきなおす",a:"menulis ulang; merevisi",lv:"N3"},
@@ -3329,7 +3366,6 @@ const VOCAB = [
 {v:"飾り",r:"かざり",a:"hiasan; dekorasi; ornamen",lv:"N3"},
 {v:"数える",r:"かぞえる",a:"menghitung; menghitung jumlah",lv:"N3"},
 {v:"数",r:"かず・すう",a:"jumlah; angka; hitungan",lv:"N3"},
-{v:"けち",r:"けち",a:"pelit; kikir; hemat berlebihan",lv:"N3"},
 {v:"経営",r:"けいえい",a:"manajemen bisnis; pengelolaan usaha",lv:"N3"},
 {v:"敬意",r:"けいい",a:"rasa hormat; penghargaan",lv:"N3"},
 {v:"掲示",r:"けいじ",a:"pengumuman; pemberitahuan; papan info",lv:"N3"},
@@ -3367,7 +3403,6 @@ const VOCAB = [
 {v:"結論",r:"けつろん",a:"kesimpulan; konklusi; keputusan akhir",lv:"N3"},
 {v:"気の毒",r:"きのどく",a:"kasihan; menyedihkan; tidak enak hati",lv:"N3"},
 {v:"希望者",r:"きぼうしゃ",a:"pelamar; peminat; yang berminat",lv:"N3"},
-{v:"きちんと",r:"きちんと",a:"rapi; teratur; dengan benar",lv:"N3"},
 {v:"貴重",r:"きちょう",a:"berharga; bernilai; langka",lv:"N3"},
 {v:"寄付",r:"きふ",a:"donasi; sumbangan; amal",lv:"N3"},
 {v:"機嫌",r:"きげん",a:"suasana hati; mood; perasaan",lv:"N3"},
@@ -3408,7 +3443,6 @@ const VOCAB = [
 {v:"傷",r:"きず",a:"luka; goresan; cacat",lv:"N3"},
 {v:"器用",r:"きよう",a:"terampil; cekatan; mahir",lv:"N3"},
 {v:"気付く",r:"きづく",a:"menyadari; mengetahui; menemukan",lv:"N3"},
-{v:"こぼす",r:"こぼす",a:"menumpahkan; mengeluh; meratap",lv:"N3"},
 {v:"越える",r:"こえる",a:"melewati; melebihi; melampaui",lv:"N3"},
 {v:"恋",r:"こい",a:"cinta; asmara; perasaan suka",lv:"N3"},
 {v:"濃い",r:"こい",a:"pekat; kental; lebat; dalam",lv:"N3"},
@@ -3485,7 +3519,6 @@ const VOCAB = [
 {v:"鎖",r:"くさり",a:"rantai; ikatan",lv:"N3"},
 {v:"腐る",r:"くさる",a:"membusuk; basi; merusak",lv:"N3"},
 {v:"癖",r:"くせ",a:"kebiasaan; kebiasaan buruk; tabiat",lv:"N3"},
-{v:"きつい",r:"きつい",a:"ketat; keras; berat; capek",lv:"N3"},
 {v:"苦痛",r:"くつう",a:"rasa sakit; penderitaan; kesakitan",lv:"N3"},
 {v:"加える",r:"くわえる",a:"menambahkan; memasukkan; menyertakan",lv:"N3"},
 {v:"詳しい",r:"くわしい",a:"terperinci; rinci; mendetail; ahli",lv:"N3"},
@@ -3640,7 +3673,6 @@ const VOCAB = [
 {v:"苦手",r:"にがて",a:"tidak pandai; lemah di; tidak suka",lv:"N3"},
 {v:"握る",r:"にぎる",a:"menggenggam; memegang; mengkepal",lv:"N3"},
 {v:"日光",r:"にっこう",a:"sinar matahari; cahaya matahari",lv:"N3"},
-{v:"にっこり",r:"にっこり",a:"tersenyum lebar; senyum cerah",lv:"N3"},
 {v:"人間",r:"にんげん",a:"manusia; sifat manusia",lv:"N3"},
 {v:"人気",r:"にんき",a:"popularitas; terkenal; disukai",lv:"N3"},
 {v:"人数",r:"にんずう",a:"jumlah orang; banyaknya orang",lv:"N3"},
@@ -3652,7 +3684,6 @@ const VOCAB = [
 {v:"軒",r:"のき",a:"atap; cucuran atap; rumah (satuan)",lv:"N3"},
 {v:"残り",r:"のこり",a:"sisa; yang tersisa; lebih",lv:"N3"},
 {v:"残す",r:"のこす",a:"menyisakan; meninggalkan; mewariskan",lv:"N3"},
-{v:"のんびり",r:"のんびり",a:"santai; tenang; tidak terburu-buru",lv:"N3"},
 {v:"乗せる",r:"のせる",a:"menaikkan; memuat; menaruh di atas",lv:"N3"},
 {v:"能",r:"のう",a:"kemampuan; bakat; pertunjukan noh",lv:"N3"},
 {v:"農業",r:"のうぎょう",a:"pertanian; agrikultur",lv:"N3"},
@@ -3681,7 +3712,6 @@ const VOCAB = [
 {v:"主に",r:"おもに",a:"terutama; pada umumnya; khususnya",lv:"N3"},
 {v:"思い出",r:"おもいで",a:"kenangan; ingatan; memori indah",lv:"N3"},
 {v:"思わず",r:"おもわず",a:"tanpa sadar; tidak sengaja; spontan",lv:"N3"},
-{v:"おむつ",r:"おむつ",a:"popok; diapers",lv:"N3"},
 {v:"恩",r:"おん",a:"budi baik; kebaikan; utang budi",lv:"N3"},
 {v:"温暖",r:"おんだん",a:"hangat; suhu hangat; warm",lv:"N3"},
 {v:"温度",r:"おんど",a:"suhu; temperatur",lv:"N3"},
@@ -3700,14 +3730,11 @@ const VOCAB = [
 {v:"抑える",r:"おさえる",a:"menahan; menekan; mengendalikan",lv:"N3"},
 {v:"汚染",r:"おせん",a:"polusi; pencemaran; kontaminasi",lv:"N3"},
 {v:"お喋り",r:"おしゃべり",a:"obrolan; banyak bicara; ngobrol",lv:"N3"},
-{v:"おしまい",r:"おしまい",a:"selesai; tamat; habis",lv:"N3"},
-{v:"おすすめ",r:"おすすめ",a:"rekomendasi; saran; yang disarankan",lv:"N3"},
 {v:"劣る",r:"おとる",a:"lebih rendah; kalah; kurang dari",lv:"N3"},
 {v:"恐らく",r:"おそらく",a:"mungkin; barangkali; kemungkinan besar",lv:"N3"},
 {v:"恐れる",r:"おそれる",a:"takut; khawatir; merasa was-was",lv:"N3"},
 {v:"恐ろしい",r:"おそろしい",a:"menakutkan; mengerikan; dahsyat",lv:"N3"},
 {v:"お互い",r:"おたがい",a:"satu sama lain; saling; bersama",lv:"N3"},
-{v:"おとなしい",r:"おとなしい",a:"pendiam; penurut; kalem; sopan",lv:"N3"},
 {v:"追う",r:"おう",a:"mengejar; mengikuti; mendorong",lv:"N3"},
 {v:"応募",r:"おうぼ",a:"pendaftaran; melamar; aplikasi",lv:"N3"},
 {v:"応援",r:"おうえん",a:"dukungan; mendukung; sorak sorai",lv:"N3"},
@@ -3721,8 +3748,6 @@ const VOCAB = [
 {v:"及ぼす",r:"およぼす",a:"memberikan dampak; berpengaruh; menimbulkan",lv:"N3"},
 {v:"泳ぎ",r:"およぎ",a:"renangan; cara berenang",lv:"N3"},
 {v:"凡そ",r:"およそ",a:"kira-kira; sekitar; pada umumnya",lv:"N3"},
-{v:"ぺらぺら",r:"ぺらぺら",a:"fasih; lancar berbicara; menguasai",lv:"N3"},
-{v:"ぴったり",r:"ぴったり",a:"pas; tepat; cocok; persis",lv:"N3"},
 {v:"楽",r:"らく",a:"mudah; santai; menyenangkan",lv:"N3"},
 {v:"例",r:"れい",a:"contoh; misalnya; kasus",lv:"N3"},
 {v:"礼儀",r:"れいぎ",a:"sopan santun; tata krama; etika",lv:"N3"},
@@ -3773,14 +3798,12 @@ const VOCAB = [
 {v:"参考",r:"さんこう",a:"referensi; bahan rujukan; acuan",lv:"N3"},
 {v:"賛成",r:"さんせい",a:"setuju; mendukung; pro",lv:"N3"},
 {v:"酸素",r:"さんそ",a:"oksigen",lv:"N3"},
-{v:"さっぱり",r:"さっぱり",a:"segar; tidak paham sama sekali; bersih",lv:"N3"},
 {v:"更に",r:"さらに",a:"lebih lagi; selain itu; tambah lagi",lv:"N3"},
 {v:"去る",r:"さる",a:"pergi; berlalu; meninggalkan",lv:"N3"},
 {v:"猿",r:"さる",a:"monyet; kera",lv:"N3"},
 {v:"支える",r:"ささえる",a:"mendukung; menopang; menyokong",lv:"N3"},
 {v:"誘う",r:"さそう",a:"mengajak; merayu; mengundang",lv:"N3"},
 {v:"指す",r:"さす",a:"menunjuk; mengacu; bermakna",lv:"N3"},
-{v:"さっそく",r:"さっそく",a:"segera; langsung; tanpa menunda",lv:"N3"},
 {v:"偖",r:"さて",a:"nah; omong-omong; baiklah",lv:"N3"},
 {v:"札",r:"さつ",a:"uang kertas; label; kartu",lv:"N3"},
 {v:"騒ぎ",r:"さわぎ",a:"keributan; kehebohan; keramaian",lv:"N3"},
@@ -3816,7 +3839,6 @@ const VOCAB = [
 {v:"責任",r:"せきにん",a:"tanggung jawab; kewajiban",lv:"N3"},
 {v:"石炭",r:"せきたん",a:"batu bara; arang",lv:"N3"},
 {v:"石油",r:"せきゆ",a:"minyak bumi; petroleum",lv:"N3"},
-{v:"せっかく",r:"せっかく",a:"dengan susah payah; khusus; sayang sekali",lv:"N3"},
 {v:"設計",r:"せっけい",a:"desain; perancangan; blueprint",lv:"N3"},
 {v:"積極的",r:"せっきょくてき",a:"aktif; proaktif; positif",lv:"N3"},
 {v:"責める",r:"せめる",a:"menyalahkan; mengkritik; menuntut",lv:"N3"},
@@ -3902,7 +3924,6 @@ const VOCAB = [
 {v:"失望",r:"しつぼう",a:"kekecewaan; harapan yang hancur",lv:"N3"},
 {v:"湿度",r:"しつど",a:"kelembaban udara; humidity",lv:"N3"},
 {v:"失業",r:"しつぎょう",a:"pengangguran; kehilangan pekerjaan",lv:"N3"},
-{v:"しつこい",r:"しつこい",a:"gigih; keras kepala; tidak mau menyerah",lv:"N3"},
 {v:"室内",r:"しつない",a:"dalam ruangan; interior; di dalam",lv:"N3"},
 {v:"市役所",r:"しやくしょ",a:"balai kota; kantor pemerintah kota",lv:"N3"},
 {v:"自然",r:"しぜん",a:"alam; alami; wajar",lv:"N3"},
@@ -3961,7 +3982,6 @@ const VOCAB = [
 {v:"袖",r:"そで",a:"lengan baju; ujung sleeve",lv:"N3"},
 {v:"祖父母",r:"そふぼ",a:"kakek nenek; orang tua dari orang tua",lv:"N3"},
 {v:"底",r:"そこ",a:"dasar; alas; bawah; lantai",lv:"N3"},
-{v:"そっくり",r:"そっくり",a:"sama persis; mirip sekali",lv:"N3"},
 {v:"粗末",r:"そまつ",a:"kasar; buruk; sederhana; tidak bagus",lv:"N3"},
 {v:"損",r:"そん",a:"kerugian; rugi; celaka",lv:"N3"},
 {v:"備える",r:"そなえる",a:"mempersiapkan; menyiapkan; dilengkapi",lv:"N3"},
@@ -3981,7 +4001,6 @@ const VOCAB = [
 {v:"相当",r:"そうとう",a:"cukup; setara; sesuai; lumayan",lv:"N3"},
 {v:"相続",r:"そうぞく",a:"warisan; pewarisan; suksesi",lv:"N3"},
 {v:"想像",r:"そうぞう",a:"imajinasi; bayangan; membayangkan",lv:"N3"},
-{v:"そっと",r:"そっと",a:"diam-diam; perlahan; pelan-pelan",lv:"N3"},
 {v:"巣",r:"す",a:"sarang; sangkar; nest",lv:"N3"},
 {v:"全て",r:"すべて",a:"semua; seluruh; segalanya",lv:"N3"},
 {v:"末",r:"すえ",a:"ujung; akhir; kemudian; terakhir",lv:"N3"},
@@ -4143,7 +4162,6 @@ const VOCAB = [
 {v:"奪う",r:"うばう",a:"merampas; mengambil paksa; merampok",lv:"N3"},
 {v:"宇宙",r:"うちゅう",a:"luar angkasa; alam semesta",lv:"N3"},
 {v:"動かす",r:"うごかす",a:"menggerakkan; memindahkan; mengoperasikan",lv:"N3"},
-{v:"うっかり",r:"うっかり",a:"tidak sengaja; lalai; sembrono",lv:"N3"},
 {v:"浮く",r:"うく",a:"terapung; melayang; mengapung",lv:"N3"},
 {v:"馬",r:"うま",a:"kuda",lv:"N3"},
 {v:"梅",r:"うめ",a:"buah plum; pohon prem",lv:"N3"},
@@ -4220,9 +4238,7 @@ const VOCAB = [
 {v:"要素",r:"ようそ",a:"elemen; faktor; komponen",lv:"N3"},
 {v:"様子",r:"ようす",a:"kondisi; situasi; penampilan",lv:"N3"},
 {v:"要点",r:"ようてん",a:"poin utama; inti; pokok",lv:"N3"},
-{v:"ようやく",r:"ようやく",a:"akhirnya; dengan susah payah; baru saja",lv:"N3"},
 {v:"余裕",r:"よゆう",a:"kelonggaran; cadangan; waktu senggang",lv:"N3"},
-{v:"ゆるい",r:"ゆるい",a:"longgar; santai; lemah; tidak ketat",lv:"N3"},
 {v:"床",r:"ゆか",a:"lantai; dasar; alas",lv:"N3"},
 {v:"愉快",r:"ゆかい",a:"menyenangkan; gembira; menyenangkan",lv:"N3"},
 {v:"行き",r:"ゆき",a:"pergi; keberangkatan; arah tujuan",lv:"N3"},
@@ -4247,7 +4263,6 @@ const VOCAB = [
 {v:"財産",r:"ざいさん",a:"harta; kekayaan; aset",lv:"N3"},
 {v:"残業",r:"ざんぎょう",a:"lembur; bekerja ekstra",lv:"N3"},
 {v:"座席",r:"ざせき",a:"tempat duduk; kursi",lv:"N3"},
-{v:"ざっと",r:"ざっと",a:"kira-kira; sekilas; secara garis besar",lv:"N3"},
 {v:"是非",r:"ぜひ",a:"pasti; tentu; mohon",lv:"N3"},
 {v:"税金",r:"ぜいきん",a:"pajak; pungutan",lv:"N3"},
 {v:"贅沢",r:"ぜいたく",a:"mewah; boros; mahal",lv:"N3"},
@@ -4264,7 +4279,6 @@ const VOCAB = [
 {v:"象",r:"ぞう",a:"gajah; gambaran; simbol",lv:"N3"},
 {v:"増加",r:"ぞうか",a:"peningkatan; pertambahan; kenaikan",lv:"N3"},
 {v:"図",r:"ず・と",a:"peta; diagram; gambar; denah",lv:"N3"},
-{v:"ずっと",r:"ずっと",a:"terus; selamanya; jauh lebih",lv:"N3"},
 {v:"頭痛",r:"ずつう",a:"sakit kepala; migrain",lv:"N3"},
 {v:"暴れる",r:"あばれる",a:"mengamuk; berkelahi; tidak terkendali",lv:"N2"},
 {v:"溢れる",r:"あふれる",a:"melimpah; meluap; penuh sesak",lv:"N2"},
@@ -4316,11 +4330,9 @@ const VOCAB = [
 {v:"鮮やか",r:"あざやか",a:"cerah; mencolok; jelas; indah",lv:"N2"},
 {v:"倍増",r:"ばいぞう",a:"berlipat ganda; dua kali lipat",lv:"N2"},
 {v:"離れ",r:"はなれ",a:"bangunan terpisah; jauh; kemandirian",lv:"N2"},
-{v:"ばっさり",r:"ばっさり",a:"sekaligus; langsung; tanpa ampun",lv:"N2"},
 {v:"別荘",r:"べっそう",a:"vila; rumah peristirahatan",lv:"N2"},
 {v:"美術",r:"びじゅつ",a:"seni rupa; kesenian; fine art",lv:"N2"},
 {v:"敏感",r:"びんかん",a:"peka; sensitif; mudah terpengaruh",lv:"N2"},
-{v:"びっしょり",r:"びっしょり",a:"basah kuyup; keringat bercucuran",lv:"N2"},
 {v:"美容院",r:"びよういん",a:"salon kecantikan",lv:"N2"},
 {v:"募金",r:"ぼきん",a:"penggalangan dana; donasi; kampanye amal",lv:"N2"},
 {v:"牧場",r:"ぼくじょう",a:"peternakan; padang rumput; ranch",lv:"N2"},
@@ -4329,7 +4341,6 @@ const VOCAB = [
 {v:"防災",r:"ぼうさい",a:"penanggulangan bencana; mitigasi",lv:"N2"},
 {v:"部員",r:"ぶいん",a:"anggota klub; anggota divisi",lv:"N2"},
 {v:"部下",r:"ぶか",a:"bawahan; anak buah; subordinat",lv:"N2"},
-{v:"ぶかぶか",r:"ぶかぶか",a:"longgar sekali; kebesaran; tidak pas",lv:"N2"},
 {v:"分別",r:"ふんべつ",a:"kebijaksanaan; pemilahan; akal sehat",lv:"N2"},
 {v:"分解",r:"ぶんかい",a:"dekomposisi; membongkar; penguraian",lv:"N2"},
 {v:"分割",r:"ぶんかつ",a:"pembagian; pemecahan; cicilan",lv:"N2"},
@@ -4393,7 +4404,6 @@ const VOCAB = [
 {v:"電波",r:"でんぱ",a:"gelombang radio; sinyal; frekuensi",lv:"N2"},
 {v:"伝染",r:"でんせん",a:"penularan; infeksi; menular",lv:"N2"},
 {v:"伝達",r:"でんたつ",a:"penyampaian; transmisi; komunikasi",lv:"N2"},
-{v:"でたらめに",r:"でたらめに",a:"sembarangan; asal-asalan; tidak karuan",lv:"N2"},
 {v:"土台",r:"どだい",a:"fondasi; dasar; pondasi",lv:"N2"},
 {v:"独占",r:"どくせん",a:"monopoli; menguasai sendiri",lv:"N2"},
 {v:"読者",r:"どくしゃ",a:"pembaca; pelanggan majalah",lv:"N2"},
@@ -4436,7 +4446,6 @@ const VOCAB = [
 {v:"普及",r:"ふきゅう",a:"penyebaran; populer; menyebar luas",lv:"N2"},
 {v:"不明",r:"ふめい",a:"tidak jelas; tidak diketahui; misterius",lv:"N2"},
 {v:"不明瞭",r:"ふめいりょう",a:"samar; tidak jelas; tidak terbaca",lv:"N2"},
-{v:"ふもと",r:"ふもと",a:"kaki gunung; di bawah gunung",lv:"N2"},
 {v:"触れ合い",r:"ふれあい",a:"kontak; interaksi; kedekatan",lv:"N2"},
 {v:"触れ合う",r:"ふれあう",a:"berinteraksi; saling menyentuh",lv:"N2"},
 {v:"振り込み",r:"ふりこみ",a:"transfer uang; pembayaran transfer",lv:"N2"},
@@ -4459,8 +4468,6 @@ const VOCAB = [
 {v:"願望",r:"がんぼう",a:"keinginan; hasrat; aspirasi",lv:"N2"},
 {v:"頑丈",r:"がんじょう",a:"kuat; kokoh; tahan lama",lv:"N2"},
 {v:"頑固",r:"がんこ",a:"keras kepala; teguh; tidak mau berubah",lv:"N2"},
-{v:"がらがら",r:"がらがら",a:"gemerincing; kosong sekali",lv:"N2"},
-{v:"がっしり",r:"がっしり",a:"kekar; berotot; kuat fisik",lv:"N2"},
 {v:"合宿",r:"がっしゅく",a:"pelatihan menginap; training camp",lv:"N2"},
 {v:"画用紙",r:"がようし",a:"kertas gambar; kertas seni",lv:"N2"},
 {v:"芸能",r:"げいのう",a:"seni pertunjukan; dunia hiburan",lv:"N2"},
@@ -4481,18 +4488,12 @@ const VOCAB = [
 {v:"議題",r:"ぎだい",a:"agenda; topik rapat; pokok pembahasan",lv:"N2"},
 {v:"疑問点",r:"ぎもんてん",a:"poin yang dipertanyakan; hal yang meragukan",lv:"N2"},
 {v:"銀行員",r:"ぎんこういん",a:"pegawai bank; bankir",lv:"N2"},
-{v:"ぎりぎり",r:"ぎりぎり",a:"mepet; pas-pasan; di batas limit",lv:"N2"},
 {v:"儀式",r:"ぎしき",a:"ritual; upacara; seremonial",lv:"N2"},
-{v:"ぎっしり",r:"ぎっしり",a:"padat; penuh sesak; rapat sekali",lv:"N2"},
-{v:"ぎざぎざ",r:"ぎざぎざ",a:"bergerigi; tidak rata",lv:"N2"},
-{v:"ごちゃごちゃ",r:"ごちゃごちゃ",a:"berantakan; kacau; campur aduk",lv:"N2"},
 {v:"強引",r:"ごういん",a:"memaksakan; agresif; tidak mau dengar",lv:"N2"},
-{v:"ぐったり",r:"ぐったり",a:"lemas total; kelelahan; tidak bertenaga",lv:"N2"},
 {v:"後日",r:"ごじつ",a:"di kemudian hari; lain waktu; nanti",lv:"N2"},
 {v:"娯楽",r:"ごらく",a:"hiburan; rekreasi; entertainment",lv:"N2"},
 {v:"合同",r:"ごうどう",a:"gabungan; bersama; joint",lv:"N2"},
 {v:"愚痴",r:"ぐち",a:"keluhan; omelan; mengeluh tanpa hasil",lv:"N2"},
-{v:"ぐんぐん",r:"ぐんぐん",a:"dengan cepat; makin lama makin; pesat",lv:"N2"},
 {v:"行事",r:"ぎょうじ",a:"kegiatan; acara; event",lv:"N2"},
 {v:"行列",r:"ぎょうれつ",a:"antrian; barisan; baris panjang",lv:"N2"},
 {v:"幅広い",r:"はばひろい",a:"luas; bervariasi; beragam",lv:"N2"},
@@ -4575,10 +4576,8 @@ const VOCAB = [
 {v:"秘書",r:"ひしょ",a:"sekretaris; asisten pribadi",lv:"N2"},
 {v:"潜む",r:"ひそむ",a:"bersembunyi; mengintai; terpendam",lv:"N2"},
 {v:"筆者",r:"ひっしゃ",a:"penulis; pengarang; author",lv:"N2"},
-{v:"ひそひそ",r:"ひそひそ",a:"berbisik; diam-diam; pelan",lv:"N2"},
 {v:"密か",r:"ひそか",a:"diam-diam; rahasia; sembunyi-sembunyi",lv:"N2"},
 {v:"秘する",r:"ひする",a:"menyembunyikan; merahasiakan",lv:"N2"},
-{v:"ひたすら",r:"ひたすら",a:"terus-menerus; tanpa henti; sepenuhnya",lv:"N2"},
 {v:"人前",r:"ひとまえ",a:"di depan orang; di depan umum",lv:"N2"},
 {v:"ひと昔",r:"ひとむかし",a:"dulu sekali; masa lampau; satu era lalu",lv:"N2"},
 {v:"一人残らず",r:"ひとりのこらず",a:"semua orang; tanpa terkecuali",lv:"N2"},
@@ -4614,7 +4613,6 @@ const VOCAB = [
 {v:"表紙",r:"ひょうし",a:"sampul; cover; halaman muka",lv:"N2"},
 {v:"異",r:"い",a:"perbedaan; aneh; lain; tidak biasa",lv:"N2"},
 {v:"居場所",r:"いばしょ",a:"tempat berada; tempat yang nyaman",lv:"N2"},
-{v:"いちいち",r:"いちいち",a:"satu per satu; setiap kali; detail",lv:"N2"},
 {v:"一段",r:"いちだん",a:"satu tingkat; satu anak tangga",lv:"N2"},
 {v:"一段落",r:"いちだんらく",a:"satu bab selesai; mencapai jeda",lv:"N2"},
 {v:"一面",r:"いちめん",a:"satu sisi; halaman utama; seluruh permukaan",lv:"N2"},
@@ -4634,7 +4632,6 @@ const VOCAB = [
 {v:"怒り",r:"いかり",a:"kemarahan; amarah; murka",lv:"N2"},
 {v:"生かす",r:"いかす",a:"memanfaatkan; menggunakan dengan baik",lv:"N2"},
 {v:"生き生き",r:"いきいき",a:"hidup; bersemangat; penuh vitalitas",lv:"N2"},
-{v:"いきなり",r:"いきなり",a:"tiba-tiba; mendadak; tanpa peringatan",lv:"N2"},
 {v:"生き残る",r:"いきのこる",a:"bertahan hidup; selamat; survive",lv:"N2"},
 {v:"息抜き",r:"いきぬき",a:"relaksasi; jeda; penyegaran",lv:"N2"},
 {v:"一見",r:"いっけん",a:"sekilas; pada pandangan pertama",lv:"N2"},
@@ -4643,7 +4640,6 @@ const VOCAB = [
 {v:"移行",r:"いこう",a:"transisi; peralihan; berpindah",lv:"N2"},
 {v:"育児",r:"いくじ",a:"pengasuhan anak; merawat bayi",lv:"N2"},
 {v:"育成",r:"いくせい",a:"pengembangan; pembinaan; membesarkan",lv:"N2"},
-{v:"いまいち",r:"いまいち",a:"kurang memuaskan; tidak begitu bagus",lv:"N2"},
 {v:"印鑑",r:"いんかん",a:"stempel; segel; cap resmi",lv:"N2"},
 {v:"飲料水",r:"いんりょうすい",a:"air minum; air bersih",lv:"N2"},
 {v:"印刷物",r:"いんさつぶつ",a:"materi cetak; bahan cetakan",lv:"N2"},
@@ -4677,7 +4673,6 @@ const VOCAB = [
 {v:"自覚",r:"じかく",a:"kesadaran diri; menyadari",lv:"N2"},
 {v:"実感",r:"じっかん",a:"merasakan nyata; perasaan sesungguhnya",lv:"N2"},
 {v:"実験者",r:"じっけんしゃ",a:"peneliti; eksperimenter; penguji",lv:"N2"},
-{v:"じっくり",r:"じっくり",a:"dengan cermat; perlahan-lahan",lv:"N2"},
 {v:"自己",r:"じこ",a:"diri sendiri; ego; self",lv:"N2"},
 {v:"時給",r:"じきゅう",a:"upah per jam; gaji per jam",lv:"N2"},
 {v:"地元",r:"じもと",a:"daerah asal; lokal; setempat",lv:"N2"},
@@ -4700,7 +4695,6 @@ const VOCAB = [
 {v:"事前",r:"じぜん",a:"sebelumnya; di muka; in advance",lv:"N2"},
 {v:"慈善",r:"じぜん",a:"amal; derma; filantropi",lv:"N2"},
 {v:"持続",r:"じぞく",a:"keberlanjutan; bertahan; berkelanjutan",lv:"N2"},
-{v:"じたばた",r:"じたばた",a:"meronta; berontak; berjuang sia-sia",lv:"N2"},
 {v:"序列",r:"じょれつ",a:"hierarki; urutan peringkat",lv:"N2"},
 {v:"助手席",r:"じょしゅせき",a:"kursi penumpang depan",lv:"N2"},
 {v:"上部",r:"じょうぶ",a:"bagian atas; upper part",lv:"N2"},
@@ -4827,7 +4821,6 @@ const VOCAB = [
 {v:"貸し出し",r:"かしだし",a:"pinjaman; meminjamkan keluar",lv:"N2"},
 {v:"箇所",r:"かしょ",a:"bagian; tempat; titik tertentu",lv:"N2"},
 {v:"加速",r:"かそく",a:"akselerasi; percepatan; bertambah cepat",lv:"N2"},
-{v:"かすか",r:"かすか",a:"samar; tipis; nyaris tidak terlihat",lv:"N2"},
 {v:"課する",r:"かする",a:"mengenakan; membebani; mewajibkan",lv:"N2"},
 {v:"肩幅",r:"かたはば",a:"lebar bahu",lv:"N2"},
 {v:"傾く",r:"かたむく",a:"miring; condong; cenderung",lv:"N2"},
@@ -4842,7 +4835,6 @@ const VOCAB = [
 {v:"活躍",r:"かつやく",a:"berperan aktif; tampil menonjol; berprestasi",lv:"N2"},
 {v:"可愛がる",r:"かわいがる",a:"menyayangi; memanjakan",lv:"N2"},
 {v:"変わった",r:"かわった",a:"aneh; tidak biasa; unik",lv:"N2"},
-{v:"かゆい",r:"かゆい",a:"gatal; terasa gatal",lv:"N2"},
 {v:"飾り付け",r:"かざりつけ",a:"dekorasi; hiasan; pemakaian ornamen",lv:"N2"},
 {v:"数々",r:"かずかず",a:"banyak; bermacam-macam; berbagai",lv:"N2"},
 {v:"数多く",r:"かずおおく",a:"dalam jumlah banyak; banyak sekali",lv:"N2"},
@@ -4884,7 +4876,6 @@ const VOCAB = [
 {v:"機敏",r:"きびん",a:"cekatan; responsif; gesit",lv:"N2"},
 {v:"規模",r:"きぼ",a:"skala; ukuran; besaran",lv:"N2"},
 {v:"気分転換",r:"きぶんてんかん",a:"penyegaran; mengubah suasana hati",lv:"N2"},
-{v:"きっちり",r:"きっちり",a:"tepat; persis; rapi sekali",lv:"N2"},
 {v:"気軽",r:"きがる",a:"santai; tidak berat; tanpa beban",lv:"N2"},
 {v:"器具",r:"きぐ",a:"peralatan; instrumen; alat",lv:"N2"},
 {v:"期日",r:"きじつ",a:"tanggal jatuh tempo; deadline",lv:"N2"},
@@ -4900,7 +4891,6 @@ const VOCAB = [
 {v:"近年",r:"きんねん",a:"belakangan ini; tahun-tahun terakhir",lv:"N2"},
 {v:"近隣",r:"きんりん",a:"tetangga; daerah sekitar",lv:"N2"},
 {v:"絹",r:"きぬ",a:"sutra; kain sutra",lv:"N2"},
-{v:"きっぱり",r:"きっぱり",a:"tegas; jelas; tanpa ragu",lv:"N2"},
 {v:"気楽",r:"きらく",a:"santai; bebas beban; relaxed",lv:"N2"},
 {v:"切り上げる",r:"きりあげる",a:"mengakhiri; membulatkan ke atas",lv:"N2"},
 {v:"切り取る",r:"きりとる",a:"memotong; menggunting; mengambil bagian",lv:"N2"},
@@ -4915,7 +4905,6 @@ const VOCAB = [
 {v:"刻む",r:"きざむ",a:"mengukir; mencincang; menghargai waktu",lv:"N2"},
 {v:"傷物",r:"きずもの",a:"barang rusak; produk cacat",lv:"N2"},
 {v:"個別",r:"こべつ",a:"individual; satu per satu; masing-masing",lv:"N2"},
-{v:"こだわり",r:"こだわり",a:"ketelitian; teguh pendirian; obsesi",lv:"N2"},
 {v:"拘る",r:"こだわる",a:"bersikeras; obsesif; teguh pada prinsip",lv:"N2"},
 {v:"孤独",r:"こどく",a:"kesepian; sendirian; terisolasi",lv:"N2"},
 {v:"古風",r:"こふう",a:"kuno; gaya lama; konservatif",lv:"N2"},
@@ -4945,7 +4934,6 @@ const VOCAB = [
 {v:"古典",r:"こてん",a:"klasik; karya tradisional; sastra kuno",lv:"N2"},
 {v:"言葉遣い",r:"ことばづかい",a:"pilihan kata; cara berbicara; diksi",lv:"N2"},
 {v:"事柄",r:"ことがら",a:"hal; masalah; sesuatu",lv:"N2"},
-{v:"こつこつ",r:"こつこつ",a:"tekun; rajin; sedikit demi sedikit",lv:"N2"},
 {v:"好調",r:"こうちょう",a:"kondisi baik; performa bagus",lv:"N2"},
 {v:"高度",r:"こうど",a:"ketinggian; tingkat tinggi; canggih",lv:"N2"},
 {v:"行動力",r:"こうどうりょく",a:"kemampuan bertindak; inisiatif kuat",lv:"N2"},
@@ -4993,7 +4981,6 @@ const VOCAB = [
 {v:"怖がる",r:"こわがる",a:"takut; merasa takut; penakut",lv:"N2"},
 {v:"苦",r:"く",a:"penderitaan; susah; pahit",lv:"N2"},
 {v:"砕く",r:"くだく",a:"menghancurkan; memecahkan; menguraikan",lv:"N2"},
-{v:"くどい",r:"くどい",a:"cerewet; bertele-tele; membosankan",lv:"N2"},
 {v:"区切り",r:"くぎり",a:"batas; pemisah; jeda; tanda baca",lv:"N2"},
 {v:"苦情",r:"くじょう",a:"keluhan; komplain; protes",lv:"N2"},
 {v:"組み替える",r:"くみかえる",a:"menyusun ulang; mengatur kembali",lv:"N2"},
@@ -5003,8 +4990,6 @@ const VOCAB = [
 {v:"車椅子",r:"くるまいす",a:"kursi roda; wheelchair",lv:"N2"},
 {v:"苦戦",r:"くせん",a:"berjuang keras; kesulitan besar",lv:"N2"},
 {v:"国々",r:"くにぐに",a:"berbagai negara; negara-negara",lv:"N2"},
-{v:"くしゃみ",r:"くしゃみ",a:"bersin",lv:"N2"},
-{v:"くたくた",r:"くたくた",a:"sangat lelah; kelelahan total",lv:"N2"},
 {v:"空洞",r:"くうどう",a:"rongga; hampa; hollow",lv:"N2"},
 {v:"空間",r:"くうかん",a:"ruang; space; area",lv:"N2"},
 {v:"空席",r:"くうせき",a:"kursi kosong; tempat kosong",lv:"N2"},
@@ -5032,21 +5017,18 @@ const VOCAB = [
 {v:"休養",r:"きゅうよう",a:"istirahat penyembuhan; pemulihan",lv:"N2"},
 {v:"急増",r:"きゅうぞう",a:"peningkatan tajam; lonjakan mendadak",lv:"N2"},
 {v:"町並み",r:"まちなみ",a:"pemandangan kota; deretan toko",lv:"N2"},
-{v:"まぶた",r:"まぶた",a:"kelopak mata",lv:"N2"},
 {v:"間近",r:"まぢか",a:"dekat sekali; hampir tiba",lv:"N2"},
 {v:"窓際",r:"まどぎわ",a:"dekat jendela; pinggir jendela",lv:"N2"},
 {v:"魔法",r:"まほう",a:"sihir; keajaiban; magic",lv:"N2"},
 {v:"前向き",r:"まえむき",a:"positif; berorientasi ke depan; optimis",lv:"N2"},
 {v:"間際",r:"まぎわ",a:"sesaat sebelum; di ujung waktu",lv:"N2"},
 {v:"巻き込む",r:"まきこむ",a:"melibatkan; menyeret; menarik ke dalam",lv:"N2"},
-{v:"まく",r:"まく",a:"menabur; menyebarkan",lv:"N2"},
 {v:"真似る",r:"まねる",a:"meniru; mengikuti; mencontoh",lv:"N2"},
 {v:"満員",r:"まんいん",a:"penuh; tidak ada tempat; full",lv:"N2"},
 {v:"満足度",r:"まんぞくど",a:"tingkat kepuasan; satisfaction level",lv:"N2"},
 {v:"稀",r:"まれ",a:"jarang; langka; tidak biasa",lv:"N2"},
 {v:"真っ先",r:"まっさき",a:"pertama sekali; paling duluan",lv:"N2"},
 {v:"真っ白",r:"まっしろ",a:"putih bersih; serba putih",lv:"N2"},
-{v:"まとめる",r:"まとめる",a:"merangkum; menyatukan; menyelesaikan",lv:"N2"},
 {v:"目",r:"め",a:"mata; pandangan; tujuan",lv:"N2"},
 {v:"目に触れる",r:"めにふれる",a:"dilihat; terlihat; terekspos",lv:"N2"},
 {v:"目新しい",r:"めあたらしい",a:"baru; segar; belum pernah ada",lv:"N2"},
@@ -5105,7 +5087,6 @@ const VOCAB = [
 {v:"物真似",r:"ものまね",a:"imitasi; meniru; impersonasi",lv:"N2"},
 {v:"物足りない",r:"ものたりない",a:"kurang memuaskan; tidak cukup",lv:"N2"},
 {v:"盛り上がる",r:"もりあがる",a:"meriah; memuncak; semakin seru",lv:"N2"},
-{v:"もったいない",r:"もったいない",a:"sayang; sia-sia; pemborosan",lv:"N2"},
 {v:"猛",r:"もう",a:"sengit; ganas; sangat kuat",lv:"N2"},
 {v:"催し",r:"もよおし",a:"acara; kegiatan; event",lv:"N2"},
 {v:"最寄り",r:"もより",a:"terdekat; paling dekat",lv:"N2"},
@@ -5118,7 +5099,6 @@ const VOCAB = [
 {v:"無関係",r:"むかんけい",a:"tidak ada hubungan; tidak terkait",lv:"N2"},
 {v:"無関心",r:"むかんしん",a:"tidak peduli; apatis; masa bodoh",lv:"N2"},
 {v:"昔話",r:"むかしばなし",a:"dongeng; cerita rakyat; kisah lama",lv:"N2"},
-{v:"むかつく",r:"むかつく",a:"jengkel; muak; membuat kesal",lv:"N2"},
 {v:"向き合う",r:"むきあう",a:"berhadap-hadapan; menghadapi",lv:"N2"},
 {v:"無口",r:"むくち",a:"pendiam; tidak banyak bicara",lv:"N2"},
 {v:"無給",r:"むきゅう",a:"tidak bergaji; tanpa bayaran",lv:"N2"},
@@ -5188,7 +5168,6 @@ const VOCAB = [
 {v:"追い求める",r:"おいもとめる",a:"mengejar; memburu; menginginkan",lv:"N2"},
 {v:"追い越す",r:"おいこす",a:"menyalip; melewati; mengungguli",lv:"N2"},
 {v:"追い抜く",r:"おいぬく",a:"menyalip; melampaui; melebihi",lv:"N2"},
-{v:"おかしな",r:"おかしな",a:"aneh; lucu; tidak wajar",lv:"N2"},
 {v:"臆病",r:"おくびょう",a:"penakut; pengecut; mudah takut",lv:"N2"},
 {v:"屋外",r:"おくがい",a:"di luar ruangan; outdoor",lv:"N2"},
 {v:"遅れ",r:"おくれ",a:"keterlambatan; jeda; tertinggal",lv:"N2"},
@@ -5217,7 +5196,6 @@ const VOCAB = [
 {v:"折り返し",r:"おりかえし",a:"balasan; kembali; membalik",lv:"N2"},
 {v:"折り畳む",r:"おりたたむ",a:"melipat; merapatkan; menggulung",lv:"N2"},
 {v:"収まる",r:"おさまる",a:"tenang; beres; terkendali",lv:"N2"},
-{v:"おしゃれ",r:"おしゃれ",a:"modis; stylish; bergaya",lv:"N2"},
 {v:"惜しい",r:"おしい",a:"sayang sekali; hampir; disayangkan",lv:"N2"},
 {v:"押し付ける",r:"おしつける",a:"memaksakan; menekan; menyodorkan",lv:"N2"},
 {v:"教わる",r:"おそわる",a:"belajar dari; diajarkan oleh",lv:"N2"},
@@ -5231,7 +5209,6 @@ const VOCAB = [
 {v:"応募者",r:"おうぼしゃ",a:"pelamar; pendaftar; applicant",lv:"N2"},
 {v:"応答",r:"おうとう",a:"respons; jawaban; balasan",lv:"N2"},
 {v:"親子",r:"おやこ",a:"orang tua dan anak; hubungan keluarga",lv:"N2"},
-{v:"および",r:"および",a:"dan; beserta; serta",lv:"N2"},
 {v:"来日",r:"らいにち",a:"kunjungan ke Jepang; datang ke Jepang",lv:"N2"},
 {v:"来学期",r:"らいがっき",a:"semester depan",lv:"N2"},
 {v:"来場",r:"らいじょう",a:"menghadiri; datang ke lokasi",lv:"N2"},
@@ -5301,15 +5278,11 @@ const VOCAB = [
 {v:"参観",r:"さんかん",a:"kunjungan observasi; menyaksikan",lv:"N2"},
 {v:"参照",r:"さんしょう",a:"referensi; rujukan; lihat",lv:"N2"},
 {v:"皿洗い",r:"さらあらい",a:"mencuci piring; dishwashing",lv:"N2"},
-{v:"さらさら",r:"さらさら",a:"mengalir lancar; halus; tidak lengket",lv:"N2"},
 {v:"猿真似",r:"さるまね",a:"meniru secara membabi buta; plagiat",lv:"N2"},
-{v:"ささやく",r:"ささやく",a:"berbisik; berbicara pelan",lv:"N2"},
 {v:"差し出す",r:"さしだす",a:"menyodorkan; mengulurkan; mengirim",lv:"N2"},
 {v:"差し引く",r:"さしひく",a:"mengurangi; memotong",lv:"N2"},
 {v:"差し支える",r:"さしつかえる",a:"menjadi hambatan; bermasalah",lv:"N2"},
-{v:"さっさ",r:"さっさ",a:"cepat-cepat; tanpa buang waktu",lv:"N2"},
 {v:"撮影",r:"さつえい",a:"pengambilan foto/video; shooting",lv:"N2"},
-{v:"さわやか",r:"さわやか",a:"segar; menyegarkan; bersih",lv:"N2"},
 {v:"狭める",r:"せばめる",a:"mempersempit; memperkecil ruang",lv:"N2"},
 {v:"接着",r:"せっちゃく",a:"perekat; menempel; adhesive",lv:"N2"},
 {v:"設置",r:"せっち",a:"pemasangan; instalasi; mendirikan",lv:"N2"},
@@ -5424,7 +5397,6 @@ const VOCAB = [
 {v:"親しむ",r:"したしむ",a:"akrab; mendekatkan diri; familiar",lv:"N2"},
 {v:"指摘",r:"してき",a:"menunjukkan; menunjuk; memperhatikan",lv:"N2"},
 {v:"視点",r:"してん",a:"sudut pandang; perspektif",lv:"N2"},
-{v:"しわ",r:"しわ",a:"kerutan; keriput; lipatan",lv:"N2"},
 {v:"視野",r:"しや",a:"bidang pandang; wawasan; perspektif",lv:"N2"},
 {v:"自然界",r:"しぜんかい",a:"alam; dunia alam; natural world",lv:"N2"},
 {v:"沈める",r:"しずめる",a:"menenggelamkan; membenamkan; menenangkan",lv:"N2"},
@@ -5495,10 +5467,8 @@ const VOCAB = [
 {v:"測定",r:"そくてい",a:"pengukuran; mengukur; kalkulasi",lv:"N2"},
 {v:"即座に",r:"そくざに",a:"segera; langsung; saat itu juga",lv:"N2"},
 {v:"染まる",r:"そまる",a:"tercelup; diwarnai; terpengaruh",lv:"N2"},
-{v:"そもそも",r:"そもそも",a:"pada dasarnya; sebenarnya; sejak awal",lv:"N2"},
 {v:"揃える",r:"そろえる",a:"menyiapkan; melengkapi; menyeragamkan",lv:"N2"},
 {v:"揃う",r:"そろう",a:"lengkap; terkumpul; seragam",lv:"N2"},
-{v:"そそっかしい",r:"そそっかしい",a:"ceroboh; sembrono; mudah lupa",lv:"N2"},
 {v:"素質",r:"そしつ",a:"bakat bawaan; potensi alami",lv:"N2"},
 {v:"外側",r:"そとがわ",a:"bagian luar; sisi luar; eksterior",lv:"N2"},
 {v:"添う",r:"そう",a:"mengikuti; menemani; mematuhi",lv:"N2"},
@@ -5518,7 +5488,6 @@ const VOCAB = [
 {v:"送信",r:"そうしん",a:"pengiriman; mengirim pesan",lv:"N2"},
 {v:"総数",r:"そうすう",a:"total jumlah; keseluruhan angka",lv:"N2"},
 {v:"相対的",r:"そうたいてき",a:"relatif; bersifat perbandingan",lv:"N2"},
-{v:"そうとう",r:"そうとう",a:"cukup; lumayan; setara; sesuai",lv:"N2"},
 {v:"創造",r:"そうぞう",a:"kreasi; penciptaan; imagination",lv:"N2"},
 {v:"騒々しい",r:"そうぞうしい",a:"berisik; gaduh; ribut",lv:"N2"},
 {v:"素材",r:"そざい",a:"bahan; material; bahan baku",lv:"N2"},
@@ -5530,12 +5499,10 @@ const VOCAB = [
 {v:"推薦書",r:"すいせんしょ",a:"surat rekomendasi; letter of reference",lv:"N2"},
 {v:"吸い取る",r:"すいとる",a:"menyedot; menyerap; mengisap",lv:"N2"},
 {v:"好き嫌い",r:"すきぎらい",a:"suka tidak suka; preferensi makanan",lv:"N2"},
-{v:"すっきり",r:"すっきり",a:"segar; lega; bersih; rapi",lv:"N2"},
 {v:"住まい",r:"すまい",a:"tempat tinggal; hunian; rumah",lv:"N2"},
 {v:"済ます",r:"すます",a:"menyelesaikan; membereskan",lv:"N2"},
 {v:"隅々",r:"すみずみ",a:"setiap sudut; di mana-mana; menyeluruh",lv:"N2"},
 {v:"素直",r:"すなお",a:"jujur; penurut; apa adanya",lv:"N2"},
-{v:"すらすら",r:"すらすら",a:"lancar; fasih; dengan mudah",lv:"N2"},
 {v:"数値",r:"すうち",a:"nilai numerik; angka; data",lv:"N2"},
 {v:"数分",r:"すうふん",a:"beberapa menit",lv:"N2"},
 {v:"数量",r:"すうりょう",a:"kuantitas; jumlah; banyaknya",lv:"N2"},
@@ -5543,7 +5510,6 @@ const VOCAB = [
 {v:"束ねる",r:"たばねる",a:"mengikat; mengumpulkan; memimpin",lv:"N2"},
 {v:"旅先",r:"たびさき",a:"tempat tujuan perjalanan",lv:"N2"},
 {v:"立ち止まる",r:"たちどまる",a:"berhenti; terhenti; diam",lv:"N2"},
-{v:"たちまち",r:"たちまち",a:"seketika; tiba-tiba; segera",lv:"N2"},
 {v:"多大",r:"ただい",a:"sangat besar; luar biasa banyak",lv:"N2"},
 {v:"辿り着く",r:"たどりつく",a:"akhirnya sampai; berhasil tiba",lv:"N2"},
 {v:"耐える",r:"たえる",a:"bertahan; menahan; tahan terhadap",lv:"N2"},
@@ -5592,7 +5558,6 @@ const VOCAB = [
 {v:"単身",r:"たんしん",a:"sendirian; tanpa keluarga; solo",lv:"N2"},
 {v:"短縮",r:"たんしゅく",a:"pemendekan; persingkatan; efisiensi waktu",lv:"N2"},
 {v:"担当者",r:"たんとうしゃ",a:"penanggungjawab; orang yang bertugas",lv:"N2"},
-{v:"たっぷり",r:"たっぷり",a:"banyak; berlimpah; dengan cukup",lv:"N2"},
 {v:"多量",r:"たりょう",a:"dalam jumlah besar; banyak",lv:"N2"},
 {v:"多彩",r:"たさい",a:"beragam; berwarna-warni; kaya variasi",lv:"N2"},
 {v:"他者",r:"たしゃ",a:"orang lain; pihak lain",lv:"N2"},
@@ -5705,7 +5670,6 @@ const VOCAB = [
 {v:"付け加え",r:"つけくわえ",a:"tambahan; suplemen; pelengkap",lv:"N2"},
 {v:"付け加える",r:"つけくわえる",a:"menambahkan; menyertakan; menambah",lv:"N2"},
 {v:"作り上げる",r:"つくりあげる",a:"menciptakan; membangun; menyelesaikan",lv:"N2"},
-{v:"つまずく",r:"つまずく",a:"tersandung; terjatuh; gagal",lv:"N2"},
 {v:"積み重なる",r:"つみかさなる",a:"bertumpuk; terakumulasi; menumpuk",lv:"N2"},
 {v:"積み重ねる",r:"つみかさねる",a:"menumpuk; mengakumulasi; membangun",lv:"N2"},
 {v:"繋がる",r:"つながる",a:"terhubung; berkaitan; connected",lv:"N2"},
@@ -5731,25 +5695,20 @@ const VOCAB = [
 {v:"有無",r:"うむ",a:"ada tidaknya; keberadaan",lv:"N2"},
 {v:"運が良い",r:"うんがいい",a:"beruntung; nasib baik",lv:"N2"},
 {v:"促す",r:"うながす",a:"mendorong; memotivasi; menganjurkan",lv:"N2"},
-{v:"うなずく",r:"うなずく",a:"mengangguk; setuju; mengiyakan",lv:"N2"},
 {v:"運賃",r:"うんちん",a:"ongkos; biaya transportasi; tarif",lv:"N2"},
 {v:"運営",r:"うんえい",a:"manajemen; operasional; pengelolaan",lv:"N2"},
 {v:"運送",r:"うんそう",a:"pengiriman; transportasi; logistik",lv:"N2"},
 {v:"占う",r:"うらなう",a:"meramal; berfirasat; memprediksi",lv:"N2"},
 {v:"売れ行き",r:"うれゆき",a:"penjualan; laju penjualan",lv:"N2"},
 {v:"売り上げ",r:"うりあげ",a:"omset; pendapatan penjualan",lv:"N2"},
-{v:"うろうろ",r:"うろうろ",a:"mondar-mandir; tidak menentu; gelisah",lv:"N2"},
 {v:"薄暗い",r:"うすぐらい",a:"remang-remang; agak gelap",lv:"N2"},
 {v:"薄れる",r:"うすれる",a:"memudar; berkurang; semakin tipis",lv:"N2"},
 {v:"雨天",r:"うてん",a:"hari hujan; cuaca hujan",lv:"N2"},
-{v:"うとうと",r:"うとうと",a:"mengantuk; terkantuk-kantuk",lv:"N2"},
-{v:"うつむく",r:"うつむく",a:"menunduk; menekuk kepala ke bawah",lv:"N2"},
 {v:"移し替える",r:"うつしかえる",a:"memindahkan; mentransfer ke tempat lain",lv:"N2"},
 {v:"映る",r:"うつる",a:"terpantul; tampak; terlihat di",lv:"N2"},
 {v:"器",r:"うつわ",a:"wadah; tempat; bakat; kapasitas",lv:"N2"},
 {v:"上回る",r:"うわまわる",a:"melebihi; melampaui; di atas",lv:"N2"},
 {v:"和風",r:"わふう",a:"gaya Jepang; Japanese style",lv:"N2"},
-{v:"わがまま",r:"わがまま",a:"egois; maunya sendiri; keras kepala",lv:"N2"},
 {v:"分かれる",r:"わかれる",a:"terbagi; berpisah; terpecah",lv:"N2"},
 {v:"若々しい",r:"わかわかしい",a:"terlihat muda; awet muda; enerjik",lv:"N2"},
 {v:"湧く",r:"わく",a:"mengalir; muncul; meluap",lv:"N2"},
@@ -5781,7 +5740,6 @@ const VOCAB = [
 {v:"読み込む",r:"よみこむ",a:"membaca dengan saksama; memuat data",lv:"N2"},
 {v:"読み手",r:"よみて",a:"pembaca; penerima informasi",lv:"N2"},
 {v:"読み取る",r:"よみとる",a:"membaca; menafsirkan; memahami",lv:"N2"},
-{v:"よっぽど",r:"よっぽど",a:"sangat; cukup; lebih baik (kalau)",lv:"N2"},
 {v:"寄り道",r:"よりみち",a:"mampir; singgah; jalan memutar",lv:"N2"},
 {v:"夜型",r:"よるがた",a:"orang malam; aktif di malam hari",lv:"N2"},
 {v:"夜遅く",r:"よるおそく",a:"larut malam; saat sudah malam",lv:"N2"},
@@ -5810,7 +5768,6 @@ const VOCAB = [
 {v:"油断",r:"ゆだん",a:"lengah; tidak waspada; lalai",lv:"N2"},
 {v:"行方",r:"ゆくえ",a:"keberadaan; tujuan; nasib",lv:"N2"},
 {v:"緩やか",r:"ゆるやか",a:"perlahan; gradual; landai",lv:"N2"},
-{v:"ゆったり",r:"ゆったり",a:"santai; lega; longgar",lv:"N2"},
 {v:"有害",r:"ゆうがい",a:"berbahaya; merugikan; hazardous",lv:"N2"},
 {v:"有限",r:"ゆうげん",a:"terbatas; finite; tidak tak terbatas",lv:"N2"},
 {v:"夕日",r:"ゆうひ",a:"matahari terbenam; senja hari",lv:"N2"},
@@ -5828,7 +5785,6 @@ const VOCAB = [
 {v:"残業代",r:"ざんぎょうだい",a:"upah lembur; bayaran ekstra kerja",lv:"N2"},
 {v:"雑草",r:"ざっそう",a:"rumput liar; gulma; tanaman pengganggu",lv:"N2"},
 {v:"雑談",r:"ざつだん",a:"obrolan santai; small talk; ngobrol",lv:"N2"},
-{v:"ざわざわ",r:"ざわざわ",a:"ramai; gaduh; tidak tenang",lv:"N2"},
 {v:"税関",r:"ぜいかん",a:"bea cukai; imigrasi; customs",lv:"N2"},
 {v:"税込",r:"ぜいこみ",a:"termasuk pajak; sudah termasuk PPN",lv:"N2"},
 {v:"全額",r:"ぜんがく",a:"total penuh; seluruh jumlah",lv:"N2"},
@@ -6968,6 +6924,320 @@ function mqShowResult(){
   document.getElementById('mq-r-time').textContent=mqFmtTime(mqFinalSecs);
   setTimeout(()=>document.getElementById('mq-r-bar').style.width=pct+'%',120);
 }
+
+
+/* ═══════════════════════════════════════════════════
+   AI FEATURES — Contoh Kalimat + Latihan Percakapan
+   Gunakan Gemini (GRATIS) atau Anthropic (Berbayar)
+═══════════════════════════════════════════════════ */
+
+// ── API Settings ──
+var AI_PROVIDER = localStorage.getItem('ai_provider') || 'gemini';
+var AI_KEY      = localStorage.getItem('ai_api_key')  || '';
+
+function getAIKey(){ return localStorage.getItem('ai_api_key')||''; }
+
+function saveAPIKey(){
+  var k  = document.getElementById('ai-key-input').value.trim();
+  var pr = document.getElementById('ai-provider-sel').value;
+  if(!k){ alert('API Key tidak boleh kosong'); return; }
+  localStorage.setItem('ai_api_key', k);
+  localStorage.setItem('ai_provider', pr);
+  AI_KEY = k; AI_PROVIDER = pr;
+  closeKeyModal();
+  alert('✅ API Key tersimpan! Fitur AI siap digunakan.');
+}
+
+function closeKeyModal(){
+  document.getElementById('ai-key-modal').classList.remove('show');
+}
+
+function openKeyModal(){
+  var k  = getAIKey();
+  var pr = localStorage.getItem('ai_provider')||'gemini';
+  if(k)  document.getElementById('ai-key-input').value = k;
+  document.getElementById('ai-provider-sel').value = pr;
+  document.getElementById('ai-key-modal').classList.add('show');
+}
+
+// ── Call AI (Gemini or Anthropic) ──
+async function callAI(messages, maxTokens){
+  var key = getAIKey();
+  if(!key){ openKeyModal(); return null; }
+  var provider = localStorage.getItem('ai_provider')||'gemini';
+
+  try {
+    if(provider === 'gemini'){
+      // Google Gemini — FREE tier available
+      var geminiMessages = messages.map(function(m){
+        return { role: m.role==='assistant'?'model':'user',
+                 parts:[{text: m.content}] };
+      });
+      var res = await fetch(
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+key,
+        { method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ contents: geminiMessages,
+            generationConfig:{ maxOutputTokens: maxTokens||800 } })
+        }
+      );
+      var data = await res.json();
+      if(data.error) throw new Error(data.error.message);
+      return data.candidates[0].content.parts[0].text;
+
+    } else {
+      // Anthropic Claude
+      var res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'x-api-key': key,
+          'anthropic-version':'2023-06-01',
+          'anthropic-dangerous-direct-browser-access':'true'
+        },
+        body: JSON.stringify({
+          model:'claude-haiku-4-5-20251001',
+          max_tokens: maxTokens||800,
+          messages: messages
+        })
+      });
+      var data = await res.json();
+      if(data.error){ if(res.status===401) openKeyModal(); throw new Error(data.error.message); }
+      return data.content[0].text;
+    }
+  } catch(e){ console.error('AI Error:',e); throw e; }
+}
+
+/* ── Contoh Kalimat ── */
+function addExampleBtn(containerId, word, reading, meaning){
+  var container = document.getElementById(containerId);
+  if(!container) return;
+  // Remove old if exists
+  var old = container.querySelector('.ai-eg-wrap');
+  if(old) old.remove();
+
+  var wrap = document.createElement('div');
+  wrap.className = 'ai-eg-wrap';
+  wrap.style.cssText = 'margin-top:12px';
+  wrap.innerHTML =
+    '<button class="ai-eg-btn" onclick="toggleExampleSentences(this,\''+containerId+'\',\''+word.replace(/'/g,"\\'")+'\',' +
+    '\''+reading+'\',' +
+    '\''+meaning.replace(/'/g,"\\'").replace(/"/g,'&quot;')+'\')">' +
+    '🤖 Contoh Kalimat Nyata</button>' +
+    '<div class="ai-eg-panel" id="ai-eg-'+containerId+'"></div>';
+  container.appendChild(wrap);
+}
+
+async function toggleExampleSentences(btn, containerId, word, reading, meaning){
+  var panel = document.getElementById('ai-eg-'+containerId);
+  if(!panel) return;
+  if(panel.style.display==='block'){
+    panel.style.display='none';
+    btn.innerHTML='🤖 Contoh Kalimat Nyata';
+    return;
+  }
+  if(!getAIKey()){ openKeyModal(); return; }
+  btn.innerHTML='⏳ Memuat...';
+  btn.style.opacity='.6';
+  panel.style.display='block';
+  panel.innerHTML='<div class="ai-eg-body" style="padding:20px;text-align:center;color:#888">Memuat contoh kalimat...</div>';
+
+  var prompt = 'Buat 3 contoh kalimat percakapan Bahasa Jepang sehari-hari yang natural menggunakan kata: ' +
+    word + ' (' + reading + ') artinya: ' + meaning + '\n\n' +
+    'Format JSON saja tanpa markdown:\n' +
+    '[{"jp":"kalimat Jepang","id":"terjemahan Indonesia","ctx":"situasi"}]\n\n' +
+    'Pastikan: natural, tingkat N4-N2, kata ' + word + ' dipakai dalam kalimat, situasi beragam.';
+
+  try {
+    var raw = await callAI([{role:'user',content:prompt}], 700);
+    var cleaned = raw.replace(/```json|```/g,'').trim();
+    // find JSON array
+    var match = cleaned.match(/\[[\s\S]*\]/);
+    if(!match) throw new Error('Format tidak valid');
+    var examples = JSON.parse(match[0]);
+
+    panel.innerHTML = '<div class="ai-eg-head">🤖 Contoh Kalimat — '+word+'（'+reading+'）</div>' +
+      '<div class="ai-eg-body">' +
+      examples.map(function(ex){
+        var jpHighlight = ex.jp.split(word).join('<span class="ai-eg-vocab">'+word+'</span>');
+        return '<div class="ai-eg-item">' +
+          '<div class="ai-eg-jp">'+jpHighlight+'</div>' +
+          '<div class="ai-eg-id">🇮🇩 '+ex.id+'</div>' +
+          '<div class="ai-eg-ctx">📍 '+ex.ctx+'</div>' +
+          '</div>';
+      }).join('') + '</div>';
+    btn.innerHTML='✕ Tutup';
+  } catch(e){
+    panel.innerHTML='<div class="ai-eg-error">❌ '+e.message+'<br><small>Cek API Key atau coba lagi</small></div>';
+    btn.innerHTML='🤖 Coba Lagi';
+  }
+  btn.style.opacity='1';
+}
+
+/* ── Hooks ke buildExp & mqBuildExp ── */
+if(typeof buildExp === 'function'){
+  var _aiBuildExp = buildExp;
+  buildExp = function(entry){
+    _aiBuildExp(entry);
+    setTimeout(function(){ addExampleBtn('exp-body', entry.v, entry.r, entry.a); }, 80);
+  };
+}
+if(typeof mqBuildExp === 'function'){
+  var _aiMqBuildExp = mqBuildExp;
+  mqBuildExp = function(entry){
+    _aiMqBuildExp(entry);
+    setTimeout(function(){ addExampleBtn('mq-exp-body', entry.v, entry.r, entry.a); }, 80);
+  };
+}
+if(typeof renderFcCard === 'function'){
+  var _aiRenderFcCard = renderFcCard;
+  renderFcCard = function(){
+    _aiRenderFcCard();
+    setTimeout(function(){
+      if(typeof fcDeck==='undefined'||!fcDeck||!fcDeck.length) return;
+      var entry = fcDeck[fcIndex];
+      if(!entry) return;
+      var chipsEl = document.getElementById('fc-kanji-chips');
+      if(!chipsEl) return;
+      var oldW = chipsEl.parentElement.querySelector('.ai-fc-wrap');
+      if(oldW) oldW.remove();
+      var wrap = document.createElement('div');
+      wrap.className='ai-fc-wrap';
+      wrap.style.marginTop='10px';
+      wrap.innerHTML =
+        '<button class="ai-eg-btn" onclick="toggleExampleSentences(this,\'fc-ai\',\''+
+        entry.v.replace(/'/g,"\\'")+'\',\''+entry.r+'\',\''+entry.a.replace(/'/g,"\\'")+'\')">' +
+        '🤖 Contoh Kalimat</button>' +
+        '<div class="ai-eg-panel" id="ai-eg-fc-ai"></div>';
+      chipsEl.parentElement.appendChild(wrap);
+    }, 120);
+  };
+}
+
+/* ═══════════════════════════════════════════════════
+   AI CHAT — Latihan Percakapan
+═══════════════════════════════════════════════════ */
+var chatHistory  = [];
+var chatTopic    = 'free';
+
+var CHAT_SYSTEM = {
+  free:     'Kamu adalah "Sensei AI", tutor bahasa Jepang yang ramah. Balas dalam BAHASA JEPANG lalu terjemahan Indonesia dalam [...]. Koreksi kesalahan dengan lembut. Gunakan kosakata N4-N2.',
+  daily:    'Kamu adalah "Sensei AI". Skenario: kehidupan sehari-hari (rumah, teman, keluarga). Balas dalam Bahasa Jepang kasual lalu terjemahan [...]. Koreksi kesalahan.',
+  work:     'Kamu adalah "Sensei AI". Skenario: di kantor/tempat kerja. Balas dalam Bahasa Jepang formal/keigo lalu terjemahan [...]. Ajarkan keigo secara alami.',
+  shopping: 'Kamu adalah "Sensei AI". Skenario: belanja/restoran. Balas dalam Bahasa Jepang lalu terjemahan [...]. Praktikkan frasa berbelanja.',
+  travel:   'Kamu adalah "Sensei AI". Skenario: perjalanan di Jepang. Balas dalam Bahasa Jepang lalu terjemahan [...]. Tanya arah, hotel, tiket.'
+};
+
+function showAIChat(vocabEntry){
+  showScreen('screen-ai-chat');
+  document.getElementById('btn-home').style.display='flex';
+  chatHistory = [];
+  var msgsEl = document.getElementById('chat-messages');
+  if(msgsEl) msgsEl.innerHTML='';
+
+  var greeting;
+  if(vocabEntry){
+    greeting = 'こんにちは！今日は「'+vocabEntry.v+'（'+vocabEntry.r+'）」を使って練習しましょう！\n'+
+      '[Halo! Hari ini kita latihan pakai kata "'+vocabEntry.v+'" ('+vocabEntry.a+')!]\n\n'+
+      'Coba buat satu kalimat menggunakan kata itu 😊';
+  } else {
+    greeting = 'こんにちは！私はSensei AIです。日本語の会話練習をお手伝いします！\n'+
+      '[Halo! Saya Sensei AI, siap membantu latihan percakapan bahasa Jepang!]\n\n'+
+      'Pilih topik di atas, atau langsung mulai bicara! 😊\n'+
+      '(Bisa dalam bahasa Jepang atau Indonesia)';
+  }
+  appendChatMsg('ai', greeting);
+}
+
+function setChatTopic(btn, topic){
+  chatTopic = topic;
+  document.querySelectorAll('.chat-topic-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var labels={free:'Bebas',daily:'Sehari-hari',work:'Kerja',shopping:'Belanja',travel:'Perjalanan'};
+  appendChatMsg('ai','📌 Topik: '+labels[topic]+'\nSilakan mulai percakapan!');
+}
+
+function appendChatMsg(role, text){
+  var msgsEl = document.getElementById('chat-messages');
+  if(!msgsEl) return;
+  var div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.innerHTML =
+    '<div class="chat-msg-avatar">'+(role==='ai'?'🤖':'👤')+'</div>'+
+    '<div class="chat-bubble"></div>';
+  div.querySelector('.chat-bubble').textContent = text;
+  msgsEl.appendChild(div);
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+  return div;
+}
+
+function sendQuick(text){
+  var inp = document.getElementById('chat-input');
+  if(inp){ inp.value=text; sendChat(); }
+}
+
+async function sendChat(){
+  var inp    = document.getElementById('chat-input');
+  var sendBtn = document.getElementById('chat-send-btn');
+  if(!inp) return;
+  var text = inp.value.trim();
+  if(!text) return;
+  if(!getAIKey()){ openKeyModal(); return; }
+
+  inp.value='';
+  inp.style.height='44px';
+  if(sendBtn) sendBtn.disabled=true;
+  document.getElementById('chat-quick').style.display='none';
+
+  appendChatMsg('user', text);
+  chatHistory.push({role:'user', content:text});
+
+  var typingEl = appendChatMsg('ai typing','⏳ Sensei AI sedang mengetik...');
+
+  // Build messages for API
+  var systemPrompt = CHAT_SYSTEM[chatTopic]||CHAT_SYSTEM.free;
+  var apiMessages = [];
+  if(chatHistory.length===1){
+    apiMessages = [{role:'user', content:'[INSTRUKSI SISTEM: '+systemPrompt+']\n\nPesan pengguna: '+text}];
+  } else {
+    apiMessages = chatHistory.slice(0,-1).map(function(m){ return {role:m.role,content:m.content}; });
+    // Prepend system to first message
+    if(apiMessages.length>0){
+      apiMessages[0].content = '[INSTRUKSI SISTEM: '+systemPrompt+']\n\n'+apiMessages[0].content;
+    }
+    apiMessages.push({role:'user',content:text});
+  }
+
+  try {
+    var reply = await callAI(apiMessages, 500);
+    if(typingEl) typingEl.remove();
+    appendChatMsg('ai', reply);
+    chatHistory.push({role:'assistant',content:reply});
+    if(chatHistory.length>20) chatHistory=chatHistory.slice(-20);
+  } catch(e){
+    if(typingEl) typingEl.remove();
+    appendChatMsg('ai','❌ '+e.message+'\nCek API Key Anda.');
+  }
+}
+
+// Enter to send in chat
+document.addEventListener('DOMContentLoaded', function(){
+  var inp = document.getElementById('chat-input');
+  if(inp){
+    inp.addEventListener('keydown', function(e){
+      if(e.key==='Enter'&&!e.shiftKey){
+        e.preventDefault(); sendChat();
+      }
+    });
+    inp.addEventListener('input', function(){
+      this.style.height='44px';
+      this.style.height=Math.min(this.scrollHeight,120)+'px';
+      var btn=document.getElementById('chat-send-btn');
+      if(btn) btn.disabled=!this.value.trim();
+    });
+  }
+});
+
 </script>
 
 <!-- ════ EDITOR ════ -->
@@ -7162,6 +7432,77 @@ function mqShowResult(){
   </div>
 </div>
 
+
+
+<!-- ═══════════════════════════════════════
+     AI CHAT SCREEN
+═══════════════════════════════════════ -->
+<div id="screen-ai-chat" style="display:none">
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🤖</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Sensei AI</div>
+        <div class="chat-header-status">Latihan percakapan Bahasa Jepang</div>
+      </div>
+      <button onclick="goHome()" style="background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.7);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0">← Keluar</button>
+    </div>
+
+    <div class="chat-topic-bar">
+      <span class="chat-topic-label">Topik:</span>
+      <button class="chat-topic-btn active" onclick="setChatTopic(this,'free')">💬 Bebas</button>
+      <button class="chat-topic-btn" onclick="setChatTopic(this,'daily')">🏠 Sehari-hari</button>
+      <button class="chat-topic-btn" onclick="setChatTopic(this,'work')">💼 Kerja</button>
+      <button class="chat-topic-btn" onclick="setChatTopic(this,'shopping')">🛒 Belanja</button>
+      <button class="chat-topic-btn" onclick="setChatTopic(this,'travel')">✈️ Perjalanan</button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages"></div>
+
+    <div class="chat-input-area">
+      <div class="chat-quick" id="chat-quick">
+        <button class="chat-quick-btn" onclick="sendQuick('こんにちは！よろしくお願いします。')">👋 Sapa AI</button>
+        <button class="chat-quick-btn" onclick="sendQuick('間違えたら教えてください')">✏️ Minta koreksi</button>
+        <button class="chat-quick-btn" onclick="sendQuick('例文を教えてください')">💡 Minta contoh</button>
+      </div>
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chat-input"
+          placeholder="Ketik dalam Bahasa Jepang atau Indonesia..."></textarea>
+        <button class="chat-send" id="chat-send-btn" onclick="sendChat()" disabled>➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     AI API KEY MODAL
+═══════════════════════════════════════ -->
+<div class="ai-modal-overlay" id="ai-key-modal">
+  <div class="ai-modal">
+    <h2>🤖 Sambungkan AI</h2>
+    <p>Pilih layanan AI dan masukkan API Key untuk mengaktifkan fitur contoh kalimat dan latihan percakapan.</p>
+
+    <select id="ai-provider-sel" style="width:100%;padding:10px;border:1.5px solid #e0d8d0;border-radius:10px;font-size:14px;margin-bottom:10px;background:var(--c-bg2,#f5f3ef);color:var(--c-text,#1c160e);outline:none">
+      <option value="gemini">✅ Google Gemini (GRATIS)</option>
+      <option value="anthropic">Claude Anthropic (Berbayar)</option>
+    </select>
+
+    <input type="password" id="ai-key-input" placeholder="Masukkan API Key di sini..." />
+
+    <div id="ai-key-help" style="font-size:12px;color:#888;margin-bottom:10px;padding:8px;background:#f5f3ef;border-radius:8px;line-height:1.6">
+      <strong>Google Gemini (Gratis):</strong><br>
+      1. Buka <strong>aistudio.google.com</strong><br>
+      2. Klik "Get API Key" → "Create API Key"<br>
+      3. Copy dan paste di sini
+    </div>
+
+    <button class="ai-modal-save" onclick="saveAPIKey()">✓ Simpan & Aktifkan</button>
+    <button class="ai-modal-skip" onclick="closeKeyModal()">Nanti saja</button>
+    <div class="ai-modal-note">
+      API Key tersimpan hanya di browser Anda (tidak dikirim ke server manapun selain AI provider yang dipilih)
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
