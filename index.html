@@ -614,6 +614,7 @@ header{background:var(--text);color:var(--bg);padding:0 20px;height:60px;display
   </div>
   <div class="hdr-right">
     <button class="btn-mute" id="btn-mute" onclick="toggleMute()">🎵</button>
+  <button onclick="openKeyModal()" title="Pengaturan AI" style="background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.7);width:36px;height:36px;border-radius:50%;font-size:15px;cursor:pointer;margin-left:4px">🤖</button>
     <button class="btn-home" id="btn-home" onclick="goHome()">🏠 Beranda</button>
     <div class="score-wrap" id="score-wrap">
       <div class="score-pill"><span class="sc-val" id="hdr-c">0</span><span class="sc-lbl">benar</span></div>
@@ -5868,7 +5869,7 @@ function generateQuestions(n){
 
 // ── NAVIGATION ──
 function showScreen(id){
-  ['screen-landing','screen-setup','screen-quiz','screen-result','screen-list','screen-editor','screen-flashcard','screen-manual-setup','screen-manual','screen-manual-result'].forEach(s=>{
+  ['screen-landing','screen-setup','screen-quiz','screen-result','screen-list','screen-editor','screen-flashcard','screen-manual-setup','screen-manual','screen-manual-result','screen-ai-chat'].forEach(s=>{
     const el=document.getElementById(s);
     if(el)el.style.display='none';
   });
@@ -5877,7 +5878,9 @@ function showScreen(id){
   document.getElementById('btn-home').style.display=onHome?'none':'block';
   document.getElementById('score-wrap').style.display=id==='screen-quiz'?'flex':'none';
 }
-function goHome(){resetTimer();showScreen('screen-landing')}
+function goHome(){
+  var aiChat=document.getElementById('screen-ai-chat');
+  if(aiChat) aiChat.style.display='none';resetTimer();showScreen('screen-landing')}
 function showSetup(){showScreen('screen-setup')}
 
 // ── LIST ──
@@ -6959,7 +6962,85 @@ function openKeyModal(){
   document.getElementById('ai-key-modal').classList.add('show');
 }
 
-// ── Call AI (Gemini or Anthropic) ──
+// ── Call AI (Gemini atau Anthropic) ──
+// Mendukung key format AQ. (baru) maupun AIzaSy... (lama)
+var GEMINI_MODELS = [
+  'gemini-2.0-flash',
+  'gemini-2.0-flash-lite',
+  'gemini-1.5-flash',
+  'gemini-1.5-flash-latest',
+  'gemini-1.5-flash-8b',
+  'gemini-pro'
+];
+
+async function callGemini(key, messages, maxTokens, modelIndex){
+  modelIndex = modelIndex || 0;
+  if(modelIndex >= GEMINI_MODELS.length)
+    throw new Error('Semua model dicoba, tidak ada yang tersedia. Cek API Key Anda.');
+
+  var model = GEMINI_MODELS[modelIndex];
+  var geminiMessages = messages.map(function(m){
+    return { role: m.role==='assistant'?'model':'user',
+             parts:[{text: m.content}] };
+  });
+
+  // Coba dua cara autentikasi: query param (API key lama) dan Bearer header (key baru)
+  var headers = {'Content-Type':'application/json'};
+  var url;
+
+  // Key format AQ. → gunakan Authorization Bearer
+  // Key format AIzaSy... → gunakan query param
+  if(key.startsWith('AQ.') || key.startsWith('ya29.')){
+    // OAuth2 / new format → Bearer token
+    headers['Authorization'] = 'Bearer ' + key;
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent';
+  } else {
+    // Standard API key format
+    url = 'https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key;
+  }
+
+  var res = await fetch(url, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      contents: geminiMessages,
+      generationConfig:{ maxOutputTokens: maxTokens||800, temperature: 0.8 }
+    })
+  });
+
+  var data = await res.json();
+
+  // Model tidak ditemukan → coba model berikutnya
+  if(data.error){
+    var msg = data.error.message || '';
+    console.warn('Model '+model+' gagal:', msg);
+    if(res.status===404 || msg.indexOf('not found')>-1 || msg.indexOf('not supported')>-1){
+      console.log('Mencoba model berikutnya:', GEMINI_MODELS[modelIndex+1]);
+      return callGemini(key, messages, maxTokens, modelIndex+1);
+    }
+    // Auth error → coba cara sebaliknya
+    if(res.status===400 && modelIndex===0){
+      // Flip auth method dan coba lagi dari model pertama
+      var flipped = !key.startsWith('AQ.');
+      if(flipped){
+        headers = {'Content-Type':'application/json', 'Authorization':'Bearer '+key};
+        url = 'https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent';
+        var res2 = await fetch(url,{method:'POST',headers:headers,
+          body:JSON.stringify({contents:geminiMessages,generationConfig:{maxOutputTokens:maxTokens||800}})});
+        var data2 = await res2.json();
+        if(!data2.error && data2.candidates)
+          return data2.candidates[0].content.parts[0].text;
+      }
+    }
+    throw new Error(msg || 'Gemini error '+res.status);
+  }
+
+  if(!data.candidates || !data.candidates.length)
+    throw new Error('Respons kosong dari Gemini');
+
+  return data.candidates[0].content.parts[0].text;
+}
+
 async function callAI(messages, maxTokens){
   var key = getAIKey();
   if(!key){ openKeyModal(); return null; }
@@ -6967,23 +7048,7 @@ async function callAI(messages, maxTokens){
 
   try {
     if(provider === 'gemini'){
-      // Google Gemini — FREE tier available
-      var geminiMessages = messages.map(function(m){
-        return { role: m.role==='assistant'?'model':'user',
-                 parts:[{text: m.content}] };
-      });
-      var res = await fetch(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='+key,
-        { method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ contents: geminiMessages,
-            generationConfig:{ maxOutputTokens: maxTokens||800 } })
-        }
-      );
-      var data = await res.json();
-      if(data.error) throw new Error(data.error.message);
-      return data.candidates[0].content.parts[0].text;
-
+      return await callGemini(key, messages, maxTokens, 0);
     } else {
       // Anthropic Claude
       var res = await fetch('https://api.anthropic.com/v1/messages',{
@@ -7482,7 +7547,7 @@ document.addEventListener('DOMContentLoaded', function(){
     <p>Pilih layanan AI dan masukkan API Key untuk mengaktifkan fitur contoh kalimat dan latihan percakapan.</p>
 
     <select id="ai-provider-sel" style="width:100%;padding:10px;border:1.5px solid #e0d8d0;border-radius:10px;font-size:14px;margin-bottom:10px;background:var(--c-bg2,#f5f3ef);color:var(--c-text,#1c160e);outline:none">
-      <option value="gemini">✅ Google Gemini (GRATIS)</option>
+      <option value="gemini">✅ Google Gemini Flash 2.0 (GRATIS)</option>
       <option value="anthropic">Claude Anthropic (Berbayar)</option>
     </select>
 
@@ -7491,8 +7556,10 @@ document.addEventListener('DOMContentLoaded', function(){
     <div id="ai-key-help" style="font-size:12px;color:#888;margin-bottom:10px;padding:8px;background:#f5f3ef;border-radius:8px;line-height:1.6">
       <strong>Google Gemini (Gratis):</strong><br>
       1. Buka <strong>aistudio.google.com</strong><br>
-      2. Klik "Get API Key" → "Create API Key"<br>
-      3. Copy dan paste di sini
+      2. Login akun Google → klik "Get API Key"<br>
+      3. Klik "Create API Key in new project"<br>
+      4. Format key: <code>AIzaSy...</code><br>
+      5. Copy dan paste di sini
     </div>
 
     <button class="ai-modal-save" onclick="saveAPIKey()">✓ Simpan & Aktifkan</button>
